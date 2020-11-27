@@ -30,6 +30,22 @@ function serve() {
 	};
 }
 
+const preprocessOptions = {
+	transformers: {
+		scss: {
+			includePaths: [
+				'node_modules',
+				'src'
+			]
+		},
+		postcss: {
+			plugins: [
+				require('autoprefixer'),
+			]
+		}
+	},
+}
+
 export default {
 	input: 'src/main.js',
 	output: {
@@ -44,7 +60,7 @@ export default {
 				// enable run-time checks when not in production
 				dev: !production
 			},
-			preprocess: preprocess()
+			preprocess: preprocess(preprocessOptions)
 		}),
 		json(),
 		// we'll extract any component CSS out into

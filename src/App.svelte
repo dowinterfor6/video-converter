@@ -1,76 +1,40 @@
 <script>
-	import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-	import { fade } from 'svelte/transition';
 	import Input from './Input.svelte';
+	import Interactable from './Interactable.svelte';
 
-	// TODO: Validate file
-	// TODO: Encoding/output types
-	// TODO: Max file size 2gb
-	// TODO: Drag and drop upload
-	// TODO: Multiple file download
-	// TODO: Reset state on input change
-
-	let output, isConverting;
-	let video = {}
-	let downloadLink;
-	let percentDone = 0;
-
-	const ffmpeg = createFFmpeg({
-		log: true, 
-		progress: ({ ratio }) => {
-			percentDone = (ratio * 100.0).toFixed(2);
-		}
-	});
-
-	const convert = async () => {
-		// TODO: Check max file size here and prevent running if file too large
-		const { name, size } = video;
-		console.log(`${name}, ${size / 1024} kb`);
-
-		isConverting = true;
-
-		if (!ffmpeg.isLoaded()) {
-			await ffmpeg.load();
-		}
-
-		ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(video));
-
-		await ffmpeg.run('-i', 'input.mp4', '-f', 'mp4', 'out.mp4');
-
-		const data = ffmpeg.FS('readFile', 'out.mp4');
-		const url = URL.createObjectURL(new Blob([data.buffer]), { type: 'video/mp4' });
-
-		output = url;
-		isConverting = false;
-	}
+	let video = {};
+	let fileFormat = "avi";
 </script>
 
 <main>
 	<h1>Video Converter</h1>
+	<!-- <div>Favicon made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 
-	<Input bind:video/>
-	{#if video}
-		<button transition:fade="{{ duration: 300}}" on:click="{convert}">Convert</button>
-	{/if}
-	{#if isConverting}
-		<span>{percentDone}%</span>
-	{/if}
-	<!-- {#if output} -->
-		<a bind:this={downloadLink} href={output} download="download.mp4">Download</a>
-	<!-- {/if} -->
+	<Input bind:video bind:fileFormat />
+	<Interactable bind:video bind:fileFormat/>
 </main>
 
-<style>
+<style lang="scss">
+	@import "./style/global.scss";
+
 	:global(body) {
 		height: 100vh;
 		padding: 0;
+		margin: 0;
 	}
 
 	:global(*) {
 		box-sizing: border-box;
+		font-family: Roboto, sans-serif;
 	}
 
 	main {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		height: 100%;
 		text-align: center;
 		padding: 1em;
@@ -78,13 +42,10 @@
 	}
 
 	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
+		font-family: 'Montserrat', sans-serif;
+		color: $red;
 		font-size: 4em;
 		font-weight: 100;
-	}
-
-	a {
-		/* display: none; */
+		margin-bottom: 75px;
 	}
 </style>
