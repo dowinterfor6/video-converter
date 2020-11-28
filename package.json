@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "homepage": "https://achan.dev/video-converter",
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp CNAME public/",
     "deploy": "gh-pages -d public/",
     "build": "rollup -c",
     "dev": "rollup -c -w",
