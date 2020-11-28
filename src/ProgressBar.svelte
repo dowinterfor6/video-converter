@@ -6,7 +6,6 @@
 
 <div class="progress-bar-container" transition:fade={{ duration: 1000 }}>
   <div class="progress-bar" style={`width: ${progress}%`}>
-
   </div>
 </div>
 

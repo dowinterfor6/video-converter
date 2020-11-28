@@ -2,13 +2,19 @@
   export let video;
   export let fileFormat;
 
+  import { demuxingFormats, muxingFormats } from "./variables";
+
   $: videoName = video?.name;
 
   let fileInputHover = false;
   let error = "";
+  let selectRef;
 
-  const fileFormats = ["avi", "flv", "m4v", "webm", "mkv", "mov", "mp4", "m4a", "3gp", "mpeg", "ogg"];
-  const nonVideoFileFormats = ["gif", "mp3"];
+  const commonFileFormats = ["mp4", "mov", "flv", "avi", "webm", "mkv", "gif", "mp3"];
+
+  const demuxFormats = demuxingFormats;
+  const muxFormats = muxingFormats.filter((format) => !commonFileFormats.includes(format));
+
 
   const highlight = (e) => {
     fileInputHover = true;
@@ -47,17 +53,23 @@
   }
 
   const validateFile = (file) => {
+    if (!file) return;
+
     if (file.type.split("/")[0] !== "video") {
-      error = "Invalid file type, please select a video!";
+      error = "Error: Invalid file type";
+    } else if (file.size / 1024 / 1024 / 1024 >= 2) {
+      error = "Error: File exceeded 2gb size limit";
     } else {
       error = "";
       video = file;
     }
   }
-</script>
 
-<!-- TODO Separate error into own class for easier red warning styling -->
-<!-- TODO: Max file size 2gb -->
+  // TODO: This lol, have to make custom dropdown
+  const handleDropdownSearch = () => {
+    selectRef.focus();
+  }
+</script>
 
 <section class="input-container">
   <div class="file-upload-container" class:animate__shakeX={error} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
@@ -69,32 +81,39 @@
       on:dragover={handleDragOver}
       on:drop={handleDragDrop}
     >
-      <input id="file-input" type="file" on:change={handleFileInputChange} accept={`video/*, .mkv`}>
+      <input id="file-input" type="file" on:change={handleFileInputChange} accept={demuxingFormats.map((format) => `.${format}`).join(", ")}>
       <label
         for="file-input"
       >
         {#if videoName}
-          {videoName}
+          <span>{videoName}</span>
         {:else}
-          {error || "Choose a video or drag it here"}
+          {#if error}
+            <span class="error-message">{error}</span>
+          {:else}
+            <span>Choose a video or drag it here</span>
+          {/if}
         {/if}
       </label>
     </div>
   </div>
 
-  <select on:change={(e) => fileFormat = e.currentTarget.value}>
-    {#each fileFormats as format}
-      <option value={format}>
-        .{format}
-      </option>
-    {/each}
-    <option disabled>Other</option>
-    {#each nonVideoFileFormats as format}
-      <option value={format}>
-        .{format}
-      </option>
-    {/each}
-  </select>
+  <div class="dropdown-container">
+    <input class="searchable-dropdown" type="text" value={`.${fileFormat}`} on:change={handleDropdownSearch}>
+    <select bind:this={selectRef} on:change={(e) => fileFormat = e.currentTarget.value}>
+      {#each commonFileFormats as format}
+        <option value={format}>
+          .{format}
+        </option>
+      {/each}
+      <option disabled>Other formats</option>
+      {#each muxFormats as format}
+        <option value={format}>
+          .{format}
+        </option>
+      {/each}
+    </select>
+  </div>
 </section>
 
 <style lang="scss">
@@ -150,6 +169,10 @@
           justify-content: center;
           cursor: pointer;
           user-select: none;
+
+          .error-message {
+            color: rgb(255, 149, 149);
+          }
         }
 
         input {
@@ -165,13 +188,33 @@
       }
     }
 
-    select {
-      border: 1px solid #ccc;
-      border-radius: 2px;
-      cursor: pointer;
-      padding: 5px;
-      color: $dark-blue;
-      user-select: none;
+    .dropdown-container {
+      width: 170px;
+      height: 50px;
+      position: relative;
+
+      select {
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        cursor: pointer;
+        padding: 5px;
+        color: $dark-blue;
+        user-select: none;
+      }
+
+      .searchable-dropdown {
+        border: 0;
+        padding: 5px 7.5px;
+        width: 150px;
+        height: 46px;
+        position: absolute;
+        top: 2px;
+        left: 2.5px;
+
+        &:focus {
+          outline: none;
+        }
+      }
     }
   }
 

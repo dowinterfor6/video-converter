@@ -11,7 +11,6 @@
   import { fade, draw } from 'svelte/transition';
   import ProgressBar from './ProgressBar.svelte';
   
-  const convertIconDimension = 75.761;
   let progress = 0;
   let output, isConverting;
 
@@ -25,11 +24,9 @@
   });
 
 	const convert = async () => {
-    // TODO: Check max file size here and prevent running if file too large
-    // TODO: Check if input file type is correct
-    const { name, size } = video;
-    console.log(fileFormat);
-		console.log(`${name}, ${size / 1024} kb`);
+    const { name } = video;
+    // console.log(fileFormat);
+		// console.log(`${name}, ${size / 1024} kb`);
 
 		isConverting = true;
 
@@ -40,6 +37,7 @@
 		ffmpeg.FS('writeFile', name, await fetchFile(video));
 
     await ffmpeg.run('-i', name, '-f', `${fileFormat}`, `out.${fileFormat}`);
+    
 
 		const data = ffmpeg.FS('readFile', `out.${fileFormat}`);
 		const url = URL.createObjectURL(new Blob([data.buffer]), { type: `video/${fileFormat}` });
@@ -51,21 +49,40 @@
 
 <section class="interactables-container">
   {#if video.name}
-    <div class="button-container" transition:fade={{ duration: 300 }} on:click={convert}>
-      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-      width="75.716px" height="75.716px" style="enable-background:new 0 0 75.716 75.716;"
-      xml:space="preserve" viewBox={`0 0 ${convertIconDimension} ${convertIconDimension}`}>
-        <g>
-          <path transition:draw={{ duration: 2000 }} d="M16.075,62.145L0,46.07h9.969c1.756-18.33,12.763-32.017,25.911-32.017c1.792,0,3.577,0.256,5.31,0.764l3.853,1.121
-            l-3.853,1.119c-9.79,2.847-17.455,14.68-18.908,29.011h9.867L16.075,62.145z M5.639,48.406l10.436,10.436l10.437-10.436H19.75
-            l0.093-1.257c1.065-14.151,7.624-25.904,16.788-30.745C24.22,15.856,13.56,29.327,12.209,47.324l-0.082,1.079L5.639,48.406
-            L5.639,48.406z M39.832,61.661c-1.789,0-3.571-0.255-5.307-0.764l-3.852-1.12l3.852-1.12c9.792-2.847,17.457-14.679,18.909-29.011
-            h-9.87l16.077-16.075l16.075,16.075h-9.971C63.988,47.975,52.98,61.661,39.832,61.661z M39.083,59.31
-            c0.247,0.012,0.499,0.016,0.747,0.016c12.169,0,22.345-13.299,23.675-30.938l0.082-1.079h6.483L59.632,16.873L49.193,27.309h6.766
-            l-0.094,1.257C54.805,42.715,48.244,54.469,39.083,59.31z"/>
-        </g>
-      </svg>
-      <button>Convert</button>
+    <div class="convert-container" transition:fade={{ duration: 300 }} on:click={convert}>
+      <div>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        width="30px" height="30px" style="enable-background:new 0 0 75.716 75.716;"
+        xml:space="preserve" viewBox="150 70 350 350">
+          <g>
+            <g>
+              <path transition:draw={{duration: 2000}} d="M472.897,124.269c-0.01-0.01-0.02-0.02-0.03-0.031l-0.017,0.017l-68.267-68.267c-6.78-6.548-17.584-6.36-24.132,0.42
+                c-6.388,6.614-6.388,17.099,0,23.713l39.151,39.151h-95.334c-65.948,0.075-119.391,53.518-119.467,119.467
+                c-0.056,47.105-38.228,85.277-85.333,85.333h-102.4C7.641,324.072,0,331.713,0,341.139s7.641,17.067,17.067,17.067h102.4
+                c65.948-0.075,119.391-53.518,119.467-119.467c0.056-47.105,38.228-85.277,85.333-85.333h95.334l-39.134,39.134
+                c-6.78,6.548-6.968,17.353-0.419,24.132c6.548,6.78,17.353,6.968,24.132,0.419c0.142-0.137,0.282-0.277,0.419-0.419l68.267-68.267
+                C479.54,141.748,479.553,130.942,472.897,124.269z"/>
+            </g>
+          </g>
+          <g>
+            <g>
+              <path transition:draw={{duration: 2000}} d="M472.897,329.069c-0.01-0.01-0.02-0.02-0.03-0.03l-0.017,0.017l-68.267-68.267c-6.78-6.548-17.584-6.36-24.132,0.42
+                c-6.388,6.614-6.388,17.099,0,23.712l39.151,39.151h-95.334c-20.996,0.015-41.258-7.721-56.9-21.726
+                c-7.081-6.222-17.864-5.525-24.086,1.555c-6.14,6.988-5.553,17.605,1.319,23.874c21.898,19.614,50.269,30.451,79.667,30.43h95.334
+                l-39.134,39.134c-6.78,6.548-6.968,17.352-0.42,24.132c6.548,6.78,17.352,6.968,24.132,0.42c0.142-0.138,0.282-0.277,0.42-0.42
+                l68.267-68.267C479.54,346.548,479.553,335.742,472.897,329.069z"/>
+            </g>
+          </g>
+          <g>
+            <g>
+              <path transition:draw={{duration: 2000}} d="M199.134,149.702c-21.898-19.614-50.269-30.451-79.667-30.43h-102.4C7.641,119.272,0,126.913,0,136.339
+                c0,9.426,7.641,17.067,17.067,17.067h102.4c20.996-0.015,41.258,7.721,56.9,21.726c7.081,6.222,17.864,5.525,24.086-1.555
+                C206.593,166.588,206.006,155.971,199.134,149.702z"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <span>Convert</span>
     </div>
   {/if}
   {#if isConverting}
@@ -75,7 +92,7 @@
     <a href={output} download={`download.${fileFormat}`} class="download-container" transition:fade={{ duration: 300 }}>
       <div>
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 -100 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+          viewBox="0 10 500 500" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="30px" height="30px">
           <g>
             <g>
               <path transition:draw={{duration: 2000}} d="M382.56,233.376C379.968,227.648,374.272,224,368,224h-64V16c0-8.832-7.168-16-16-16h-64c-8.832,0-16,7.168-16,16v208h-64
@@ -98,103 +115,67 @@
 <style lang="scss">
   @import "./style/global.scss";
 
-  .interactables-container {
-    margin-top: 40px;
+  @mixin button($strokeWidth) {
+    width: 250px;
+    padding: 10px 20px;
+    background-color: $light-blue;
+    // border-top-right-radius: 45px;
+    // border-bottom-left-radius: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: black;
 
-    .button-container {
-      width: 255px;
-      padding: 5px 10px;
-      background-color: $light-blue;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.3s;
-
-      &:hover {
-        background-color: $blue;
-        color: white;
-
-        svg {
-          path {
-            stroke: white;
-          }
-        }
-      }
+    &:hover {
+      background-color: $blue;
+      color: white;
 
       svg {
-        margin-right: 5px;
+        path {
+          stroke: white;
+        }
+      }
+    }
+
+    div {
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
+
+      svg {
+        margin: auto;
+        overflow: initial;
 
         path {
           transition: all 0.3s;
           stroke: black;
+          stroke-width: $strokeWidth;
           fill: transparent;
         }
       }
-
-      button {
-        cursor: pointer;
-        background: none;
-        border: none;
-        outline: none;
-        font-size: 28px;
-        text-transform: uppercase;
-        font-family: Montserrat, sans-serif;
-        font-weight: 100;
-        color: inherit;
-      }
     }
 
+    span {
+      font-size: 24px;
+      text-transform: uppercase;
+      font-family: Montserrat, sans-serif;
+      font-weight: 100;
+      color: inherit;
+    }
+  }
+
+  .interactables-container {
+    margin-top: 40px;
+
+    .convert-container {
+      @include button(10px);
+    }
+    
     .download-container {
-      width: 255px;
-      padding: 5px 10px;
-      background-color: $light-blue;
-      border-radius: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      color: black;
-
-      &:hover {
-        background-color: $blue;
-        color: white;
-
-        svg {
-          path {
-            stroke: white;
-          }
-        }
-      }
-
-      div {
-        height: 60px;
-        width: 60px;
-        margin-right: 10px;
-
-        svg {
-          margin: auto;
-          overflow: initial;
-
-          path {
-            transition: all 0.3s;
-            stroke: black;
-            stroke-width: 20px;
-            fill: transparent;
-          }
-        }
-      }
-
-      span {
-        font-size: 28px;
-        text-transform: uppercase;
-        font-family: Montserrat, sans-serif;
-        font-weight: 100;
-        color: inherit;
-      }
+      @include button(20px);
     }
   }
 </style>

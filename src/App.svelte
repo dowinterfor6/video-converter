@@ -3,14 +3,14 @@
 	import Interactable from './Interactable.svelte';
 
 	let video = {};
-	let fileFormat = "avi";
+	let fileFormat = "mp4";
 </script>
 
 <main>
 	<h1>Video Converter</h1>
 	<!-- <div>Favicon made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 
 	<Input bind:video bind:fileFormat />
 	<Interactable bind:video bind:fileFormat/>
