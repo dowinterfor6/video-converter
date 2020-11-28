@@ -3,7 +3,7 @@
 	import Interactable from './Interactable.svelte';
 
 	let video = {};
-	let fileFormat = "mp4";
+	let fileFormat = ".mp4";
 </script>
 
 <main>
@@ -11,6 +11,7 @@
 	<!-- <div>Favicon made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- <div>Down arrow icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 
 	<Input bind:video bind:fileFormat />
 	<Interactable bind:video bind:fileFormat/>
@@ -33,7 +34,7 @@
 	main {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		height: 100%;
 		text-align: center;

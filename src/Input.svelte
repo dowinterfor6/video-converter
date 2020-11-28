@@ -7,12 +7,18 @@
   $: videoName = video?.name;
 
   let fileInputHover = false;
-  let error = "";
-  let selectRef;
+  let fileInputError = "";
+  let dropdownActive;
+  let dropdownSearchQuery = fileFormat;
+  let dropdownInputError = "";
 
-  const commonFileFormats = ["mp4", "mov", "flv", "avi", "webm", "mkv", "gif", "mp3"];
+  const commonFileFormats = [".mp4", ".mov", ".flv", ".avi", ".webm", ".mkv", ".gif", ".mp3"];
 
   const muxFormats = muxingFormats.filter((format) => !commonFileFormats.includes(format));
+
+  $: filteredFileFormats = 
+    [...commonFileFormats, ...muxFormats]
+    .filter((format) => format.includes(dropdownSearchQuery));
 
   const highlight = (e) => {
     fileInputHover = true;
@@ -54,22 +60,37 @@
     if (!file) return;
 
     if (file.type.split("/")[0] !== "video") {
-      error = "Error: Invalid file type";
+      fileInputError = "Error: Invalid file type";
     } else if (file.size / 1024 / 1024 / 1024 >= 2) {
-      error = "Error: File exceeded 2gb size limit";
+      fileInputError = "Error: File exceeded 2gb size limit";
     } else {
-      error = "";
+      fileInputError = "";
       video = file;
     }
   }
 
-  const handleDropdownSearch = () => {
-    selectRef.focus();
+  const handleDropdownSearch = (e) => {
+    dropdownSearchQuery = e.currentTarget.value;
+    dropdownInputError = "";
+  }
+
+  const handleDropdownOpen = () => {
+    dropdownActive = true;
+  }
+
+  const handleDropdownBlur = () => {
+    dropdownActive = false;
+    if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
+      fileFormat = dropdownSearchQuery;
+    } else {
+      dropdownInputError = "Not a valid file format";
+    }
+    
   }
 </script>
 
 <section class="input-container">
-  <div class="file-upload-container" class:animate__shakeX={error} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
+  <div class="file-upload-container" class:animate__shakeX={fileInputError} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
     <div
       class="file-upload-wrapper"
       class:highlight={fileInputHover}
@@ -78,15 +99,15 @@
       on:dragover={handleDragOver}
       on:drop={handleDragDrop}
     >
-      <input id="file-input" type="file" on:change={handleFileInputChange} accept={demuxingFormats.map((format) => `.${format}`).join(", ")}>
+      <input id="file-input" type="file" on:change={handleFileInputChange} accept={demuxingFormats.join(", ")}>
       <label
         for="file-input"
       >
         {#if videoName}
           <span>{videoName}</span>
         {:else}
-          {#if error}
-            <span class="error-message">{error}</span>
+          {#if fileInputError}
+            <span class="error-message">{fileInputError}</span>
           {:else}
             <span>Choose a video or drag it here</span>
           {/if}
@@ -95,34 +116,73 @@
     </div>
   </div>
 
-  <div class="dropdown-container">
-    <input class="searchable-dropdown" type="text" value={`.${fileFormat}`} on:change={handleDropdownSearch}>
-    <select bind:this={selectRef} on:change={(e) => fileFormat = e.currentTarget.value}>
-      {#each commonFileFormats as format}
-        <option value={format}>
-          .{format}
-        </option>
+  <div class="dropdown-container" class:animate__shakeX={dropdownInputError}>
+    {#if dropdownInputError}
+      <span class="error-message">{dropdownInputError}</span>
+    {/if}
+    <div class="searchable-dropdown">
+      <input
+        type="text"
+        value={`${fileFormat}`}
+        on:input={handleDropdownSearch}
+        on:focus={handleDropdownOpen}
+        on:blur={handleDropdownBlur}
+      >
+      <div class:flipped={dropdownActive} on:click={() => dropdownActive = !dropdownActive}>
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 -60 512 512" width="20px" height="30px" xml:space="preserve">
+          <g>
+            <g>
+              <path d="M505.752,123.582c-8.331-8.331-21.839-8.331-30.17,0L256,343.163L36.418,123.582c-8.331-8.331-21.839-8.331-30.17,0
+                s-8.331,21.839,0,30.17l234.667,234.667c8.331,8.331,21.839,8.331,30.17,0l234.667-234.667
+                C514.083,145.42,514.083,131.913,505.752,123.582z"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <ul class:open={dropdownActive}>
+      {#each filteredFileFormats as format}
+        <li value={format}>
+          {format}
+        </li>
       {/each}
-      <option disabled>Other formats</option>
+      <!-- {#each commonFileFormats as format}
+        <li value={format}>
+          {format}
+        </li>
+      {/each}
+      <li class="disabled">Other formats</li>
       {#each muxFormats as format}
-        <option value={format}>
-          .{format}
-        </option>
-      {/each}
-    </select>
+        <li value={format}>
+          {format}
+        </li>
+      {/each} -->
+    </ul>
   </div>
 </section>
 
 <style lang="scss">
   @import "./style/global.scss";
 
+  $dropdownWidth: 200px;
+  $dropdownHeight: 50px;
+  $errorColor: rgb(255, 86, 86);
+
+  .animate__shakeX {
+    -webkit-animation-name: shakeX;
+    animation-name: shakeX;
+    animation-duration: 0.3s;
+  }
+
   .input-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     color: $dark-blue;
     
-    input, select {
+    input {
       margin: 0;
       height: 50px;
     }
@@ -131,19 +191,19 @@
       border: 1px solid #ccc;
       border-radius: 2px;
       padding: 7.5px;
-      height: 100px;
-      width: 300px;
-      margin-right: 10px;
+      height: 200px;
+      width: 400px;
+      margin-bottom: 10px;
       transition: all 0.3s;
 
-      &.animate__shakeX {
-        -webkit-animation-name: shakeX;
-        animation-name: shakeX;
-        animation-duration: 0.3s;
-      }
+      // &.animate__shakeX {
+      //   -webkit-animation-name: shakeX;
+      //   animation-name: shakeX;
+      //   animation-duration: 0.3s;
+      // }
       
       &:hover {
-        background-color: rgb(252, 252, 252);
+        background-color: $grey;
         color: $blue;
       }
 
@@ -168,7 +228,7 @@
           user-select: none;
 
           .error-message {
-            color: rgb(255, 149, 149);
+            color: $errorColor;
           }
         }
 
@@ -186,30 +246,82 @@
     }
 
     .dropdown-container {
-      width: 170px;
-      height: 50px;
+      width: $dropdownWidth;
+      height: $dropdownHeight;
       position: relative;
 
-      select {
+      .error-message {
+        color: $errorColor;
+      }
+
+      ul {
+        max-height: 200px;
+        width: $dropdownWidth;
+        overflow-y: auto;
+        overflow-x: hidden;
         border: 1px solid #ccc;
         border-radius: 2px;
         cursor: pointer;
-        padding: 5px;
+        padding: 0;
         color: $dark-blue;
         user-select: none;
+        position: relative;
+        top: -1px;
+        margin: 0;
+        display: none;
+
+        &.open {
+          display: inherit;
+        }
+
+        li {
+          list-style: none;
+          padding: 5px 0;
+
+          &.disabled {
+            color: grey;
+          }
+
+          &:hover:not(.disabled) {
+            background-color: $grey;
+          }
+
+          &.disabled {
+            cursor: initial;
+          }
+        }
       }
 
       .searchable-dropdown {
-        border: 0;
-        padding: 5px 7.5px;
-        width: 150px;
-        height: 46px;
-        position: absolute;
-        top: 2px;
-        left: 2.5px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        &:focus {
-          outline: none;
+        div {
+          height: $dropdownHeight;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          cursor: pointer;
+          padding: 0 5px;
+          transition: all 0.2s;
+          margin: 0 5px;
+
+          &.flipped {
+            transform: rotate(180deg);
+          }
+        }
+
+        input {
+          border: 0;
+          width: 100%;
+          padding: 5px 7.5px;
+  
+          &:focus {
+            outline: none;
+          }
         }
       }
     }

@@ -310,7 +310,7 @@ export const demuxingFormats = [
   "xwma",
   "yop",
   "yuv4mpegpipe"
-];
+].map((format) => `.${format}`);
 
 export const muxingFormats = [
   "3g2",
@@ -477,4 +477,4 @@ export const muxingFormats = [
   "wtv",
   "wv",
   "yuv4mpegpipe"
-];
+].map((format) => `.${format}`);

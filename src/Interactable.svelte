@@ -27,13 +27,16 @@
 			await ffmpeg.load();
 		}
 
-		ffmpeg.FS('writeFile', name, await fetchFile(video));
+    ffmpeg.FS('writeFile', name, await fetchFile(video));
+    
+    // Assume file format is correct, in the form .format
+    const fileFormatWithoutDot = fileFormat.split(".")[1];
 
-    await ffmpeg.run('-i', name, '-f', `${fileFormat}`, `out.${fileFormat}`);
+    await ffmpeg.run('-i', name, '-f', `${fileFormatWithoutDot}`, `out.${fileFormatWithoutDot}`);
     
 
-		const data = ffmpeg.FS('readFile', `out.${fileFormat}`);
-		const url = URL.createObjectURL(new Blob([data.buffer]), { type: `video/${fileFormat}` });
+		const data = ffmpeg.FS('readFile', `out.${fileFormatWithoutDot}`);
+		const url = URL.createObjectURL(new Blob([data.buffer]), { type: `video/${fileFormatWithoutDot}` });
 
 		output = url;
 		isConverting = false;
