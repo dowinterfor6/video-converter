@@ -154,7 +154,7 @@
     span {
       font-size: 24px;
       text-transform: uppercase;
-      font-family: Montserrat, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 100;
       color: inherit;
     }
