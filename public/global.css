@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./Montserrat-Light.ttf') format('truetype');
+}
+
 /* html, body {
 	position: relative;
 	width: 100%;
