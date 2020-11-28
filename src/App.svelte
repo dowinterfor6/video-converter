@@ -1,9 +1,11 @@
 <script>
-	import Input from './Input.svelte';
-	import Interactable from './Interactable.svelte';
+	import Input from './components/Input.svelte';
+	import Interactable from './components/Interactable.svelte';
 
-	let video = {};
-	let fileFormat = ".mp4";
+	// let video = {};
+	// let fileFormat = ".mp4";
+	// let fileInputError = "";
+	// let dropdownInputError = "";
 </script>
 
 <main>
@@ -13,8 +15,10 @@
 	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Down arrow icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 
-	<Input bind:video bind:fileFormat />
-	<Interactable bind:video bind:fileFormat/>
+	<!-- <Input bind:video bind:fileFormat bind:fileInputError bind:dropdownInputError/>
+	<Interactable bind:video bind:fileFormat bind:fileInputError bind:dropdownInputError/> -->
+	<Input/>
+	<Interactable/>
 </main>
 
 <style lang="scss">

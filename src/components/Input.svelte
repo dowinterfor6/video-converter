@@ -1,23 +1,39 @@
 <script>
-  export let video;
-  export let fileFormat;
+  // export let video;
+  // export let fileFormat;
+  // export let fileInputError;
+  // export let dropdownInputError;
 
-  import { demuxingFormats, muxingFormats } from "./variables";
+  import { demuxingFormats, muxingFormats } from "../variables";
+  import { video, fileFormat, fileInputError, dropdownInputError } from "../store/store";
 
-  $: videoName = video?.name;
+  // $: videoName = video?.name;
+  let videoName, fileError, dropdownError, format;
+
+  fileFormat.subscribe((value) => format = value);
+
+  fileInputError.subscribe((err) => {
+    fileError = err;
+  });
+
+  dropdownInputError.subscribe((err) => {
+    dropdownError = err;
+  });
+
+  video.subscribe((video) => {
+    videoName = video.name;
+  });
 
   let fileInputHover = false;
-  let fileInputError = "";
   let dropdownActive;
-  let dropdownSearchQuery = fileFormat;
-  let dropdownInputError = "";
+  let dropdownSearchQuery = format;
 
   const commonFileFormats = [".mp4", ".mov", ".flv", ".avi", ".webm", ".mkv", ".gif", ".mp3"];
 
   const muxFormats = muxingFormats.filter((format) => !commonFileFormats.includes(format));
 
   $: filteredFileFormats = 
-    [...commonFileFormats, ...muxFormats]
+    ["Common", ...commonFileFormats, "Other", ...muxFormats]
     .filter((format) => format.includes(dropdownSearchQuery));
 
   const highlight = (e) => {
@@ -59,38 +75,61 @@
   const validateFile = (file) => {
     if (!file) return;
 
-    if (file.type.split("/")[0] !== "video") {
-      fileInputError = "Error: Invalid file type";
+    // Check extension, in case multiple dots
+    const fileNameSplit = file.name.split(".");
+    if (
+      file.type.split("/")[0] !== "video" ||
+      !demuxingFormats.includes(`.${fileNameSplit[fileNameSplit.length - 1]}`)
+    ) {
+      // fileInputError = "Error: Invalid file type";
+      fileInputError.set("Error: Invalid file type");
     } else if (file.size / 1024 / 1024 / 1024 >= 2) {
-      fileInputError = "Error: File exceeded 2gb size limit";
+      // fileInputError = "Error: File exceeded 2gb size limit";
+      fileInputError.set("Error: File exceeded 2gb size limit");
     } else {
-      fileInputError = "";
-      video = file;
+      // fileInputError = "";
+      fileInputError.set("");
+      // video = file;
+      video.set(file);
     }
   }
 
   const handleDropdownSearch = (e) => {
     dropdownSearchQuery = e.currentTarget.value;
-    dropdownInputError = "";
+    // dropdownInputError = "";
+    dropdownInputError.set("");
   }
 
   const handleDropdownOpen = () => {
     dropdownActive = true;
   }
 
-  const handleDropdownBlur = () => {
-    dropdownActive = false;
-    if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
-      fileFormat = dropdownSearchQuery;
-    } else {
-      dropdownInputError = "Not a valid file format";
-    }
+  const handleDropdownBlur = (e) => {
+    e.preventDefault();
     
+    if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
+      dropdownActive = false;
+      // fileFormat = dropdownSearchQuery;
+      fileFormat.set(dropdownSearchQuery);
+    } else {
+      dropdownActive = true;
+      // dropdownInputError = "Not a valid file format";
+      dropdownInputError.set("Not a valid file format");
+    }
+  }
+
+  const setDropdownValue = (e) => {
+    // dropdownInputError = "";
+    dropdownInputError.set("");
+    dropdownSearchQuery = e.currentTarget.dataset.format;
+    // fileFormat = e.currentTarget.dataset.format;
+    fileFormat.set(e.currentTarget.dataset.format);
+    dropdownActive = false;
   }
 </script>
 
 <section class="input-container">
-  <div class="file-upload-container" class:animate__shakeX={fileInputError} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
+  <div class="file-upload-container" class:animate__shakeX={fileError} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
     <div
       class="file-upload-wrapper"
       class:highlight={fileInputHover}
@@ -106,8 +145,8 @@
         {#if videoName}
           <span>{videoName}</span>
         {:else}
-          {#if fileInputError}
-            <span class="error-message">{fileInputError}</span>
+          {#if fileError}
+            <span class="error-message">{fileError}</span>
           {:else}
             <span>Choose a video or drag it here</span>
           {/if}
@@ -116,14 +155,14 @@
     </div>
   </div>
 
-  <div class="dropdown-container" class:animate__shakeX={dropdownInputError}>
-    {#if dropdownInputError}
-      <span class="error-message">{dropdownInputError}</span>
+  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
+    {#if dropdownError}
+      <span class="error-message">{dropdownError}</span>
     {/if}
-    <div class="searchable-dropdown">
+    <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
       <input
         type="text"
-        value={`${fileFormat}`}
+        value={format}
         on:input={handleDropdownSearch}
         on:focus={handleDropdownOpen}
         on:blur={handleDropdownBlur}
@@ -140,12 +179,18 @@
           </g>
         </svg>
       </div>
-    </div>
+    </form>
     <ul class:open={dropdownActive}>
       {#each filteredFileFormats as format}
-        <li value={format}>
-          {format}
-        </li>
+        {#if format.includes(".")}
+          <li data-format={format} on:mousedown={setDropdownValue}>
+            {format}
+          </li>
+        {:else}
+          <li class="disabled">
+            {format}
+          </li>
+        {/if}
       {/each}
       <!-- {#each commonFileFormats as format}
         <li value={format}>
@@ -163,7 +208,7 @@
 </section>
 
 <style lang="scss">
-  @import "./style/global.scss";
+  @import "../style/global.scss";
 
   $dropdownWidth: 200px;
   $dropdownHeight: 50px;

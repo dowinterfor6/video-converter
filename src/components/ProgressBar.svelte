@@ -10,7 +10,7 @@
 </div>
 
 <style lang="scss">
-  @import "./style/global.scss";
+  @import "../style/global.scss";
 
   .progress-bar-container {
     width: 500px;

@@ -1,13 +1,35 @@
 <script>
-  export let video;
-  export let fileFormat;
+  // export let video;
+  // export let fileFormat;
+  // export let fileInputError;
+  // export let dropdownInputError;
 
   import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
   import { fade, draw } from 'svelte/transition';
   import ProgressBar from './ProgressBar.svelte';
   
+  import { video, fileFormat, fileInputError, dropdownInputError } from "../store/store";
+
+  let videoFile, fileError, dropdownError, format;
+
+  fileFormat.subscribe((value) => format = value);
+
+  fileInputError.subscribe((err) => {
+    fileError = err;
+  });
+
+  dropdownInputError.subscribe((err) => {
+    dropdownError = err;
+  });
+
+  video.subscribe((video) => {
+    videoFile = video;
+  });
+  
   let progress = 0;
   let output, isConverting;
+
+  $: showConvertButton = videoFile.name && !fileError && !dropdownError;
 
   const ffmpeg = createFFmpeg({
     log: true, 
@@ -19,7 +41,7 @@
   });
 
 	const convert = async () => {
-    const { name } = video;
+    const { name } = videoFile;
 
 		isConverting = true;
 
@@ -27,10 +49,10 @@
 			await ffmpeg.load();
 		}
 
-    ffmpeg.FS('writeFile', name, await fetchFile(video));
+    ffmpeg.FS('writeFile', name, await fetchFile(videoFile));
     
     // Assume file format is correct, in the form .format
-    const fileFormatWithoutDot = fileFormat.split(".")[1];
+    const fileFormatWithoutDot = format.split(".")[1];
 
     await ffmpeg.run('-i', name, '-f', `${fileFormatWithoutDot}`, `out.${fileFormatWithoutDot}`);
     
@@ -44,7 +66,7 @@
 </script>
 
 <section class="interactables-container">
-  {#if video.name}
+  {#if showConvertButton}
     <div class="convert-container" transition:fade={{ duration: 300 }} on:click={convert}>
       <div>
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -85,7 +107,7 @@
     <ProgressBar bind:progress/>
   {/if}
   {#if output}
-    <a href={output} download={`download.${fileFormat}`} class="download-container" transition:fade={{ duration: 300 }}>
+    <a href={output} download={`${videoFile.name.split(".")[0]}${format}`} class="download-container" transition:fade={{ duration: 300 }}>
       <div>
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 10 500 500" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="30px" height="30px">
@@ -109,7 +131,7 @@
 </section>
 
 <style lang="scss">
-  @import "./style/global.scss";
+  @import "../style/global.scss";
 
   @mixin button($strokeWidth) {
     width: 250px;
