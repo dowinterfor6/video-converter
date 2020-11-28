@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/Montserrat-Light.ttf') format('truetype');
+}
 
 $red: #e63946;
 $white: #f1faee;
