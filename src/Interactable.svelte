@@ -2,11 +2,6 @@
   export let video;
   export let fileFormat;
 
-  // TODO: Reset state on input change
-  // TODO: Name output file same as input
-  // TODO: Manage state of whatever button/progress is loaded
-  // TODO: Credit icon authors
-
   import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
   import { fade, draw } from 'svelte/transition';
   import ProgressBar from './ProgressBar.svelte';
@@ -25,8 +20,6 @@
 
 	const convert = async () => {
     const { name } = video;
-    // console.log(fileFormat);
-		// console.log(`${name}, ${size / 1024} kb`);
 
 		isConverting = true;
 

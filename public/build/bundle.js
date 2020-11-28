@@ -1100,17 +1100,17 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[19] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[19] = list[i];
     	return child_ctx;
     }
 
-    // (93:10) {:else}
+    // (90:10) {:else}
     function create_else_block(ctx) {
     	let span;
 
@@ -1118,7 +1118,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			span.textContent = "Choose a video or drag it here";
-    			add_location(span, file, 93, 12, 2330);
+    			add_location(span, file, 90, 12, 2239);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -1133,14 +1133,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(93:10) {:else}",
+    		source: "(90:10) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:10) {#if error}
+    // (88:10) {#if error}
     function create_if_block_1(ctx) {
     	let span;
     	let t;
@@ -1150,7 +1150,7 @@ var app = (function () {
     			span = element("span");
     			t = text(/*error*/ ctx[2]);
     			attr_dev(span, "class", "error-message svelte-1pbzo3a");
-    			add_location(span, file, 91, 12, 2257);
+    			add_location(span, file, 88, 12, 2166);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -1168,14 +1168,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(91:10) {#if error}",
+    		source: "(88:10) {#if error}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (88:8) {#if videoName}
+    // (85:8) {#if videoName}
     function create_if_block(ctx) {
     	let span;
     	let t;
@@ -1184,7 +1184,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			t = text(/*videoName*/ ctx[4]);
-    			add_location(span, file, 88, 10, 2182);
+    			add_location(span, file, 85, 10, 2091);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -1202,18 +1202,18 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(88:8) {#if videoName}",
+    		source: "(85:8) {#if videoName}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:6) {#each commonFileFormats as format}
+    // (101:6) {#each commonFileFormats as format}
     function create_each_block_1(ctx) {
     	let option;
     	let t0;
-    	let t1_value = /*format*/ ctx[20] + "";
+    	let t1_value = /*format*/ ctx[19] + "";
     	let t1;
     	let t2;
     	let option_value_value;
@@ -1224,9 +1224,9 @@ var app = (function () {
     			t0 = text(".");
     			t1 = text(t1_value);
     			t2 = space();
-    			option.__value = option_value_value = /*format*/ ctx[20];
+    			option.__value = option_value_value = /*format*/ ctx[19];
     			option.value = option.__value;
-    			add_location(option, file, 104, 8, 2724);
+    			add_location(option, file, 101, 8, 2633);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -1244,18 +1244,18 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(104:6) {#each commonFileFormats as format}",
+    		source: "(101:6) {#each commonFileFormats as format}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:6) {#each muxFormats as format}
+    // (107:6) {#each muxFormats as format}
     function create_each_block(ctx) {
     	let option;
     	let t0;
-    	let t1_value = /*format*/ ctx[20] + "";
+    	let t1_value = /*format*/ ctx[19] + "";
     	let t1;
     	let t2;
     	let option_value_value;
@@ -1266,9 +1266,9 @@ var app = (function () {
     			t0 = text(".");
     			t1 = text(t1_value);
     			t2 = space();
-    			option.__value = option_value_value = /*format*/ ctx[20];
+    			option.__value = option_value_value = /*format*/ ctx[19];
     			option.value = option.__value;
-    			add_location(option, file, 110, 8, 2889);
+    			add_location(option, file, 107, 8, 2798);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -1286,7 +1286,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(110:6) {#each muxFormats as format}",
+    		source: "(107:6) {#each muxFormats as format}",
     		ctx
     	});
 
@@ -1366,31 +1366,31 @@ var app = (function () {
     			attr_dev(input0, "type", "file");
     			attr_dev(input0, "accept", input0_accept_value = demuxingFormats.map(func).join(", "));
     			attr_dev(input0, "class", "svelte-1pbzo3a");
-    			add_location(input0, file, 83, 6, 1966);
+    			add_location(input0, file, 80, 6, 1875);
     			attr_dev(label, "for", "file-input");
     			attr_dev(label, "class", "svelte-1pbzo3a");
-    			add_location(label, file, 84, 6, 2108);
+    			add_location(label, file, 81, 6, 2017);
     			attr_dev(div0, "class", "file-upload-wrapper svelte-1pbzo3a");
     			toggle_class(div0, "highlight", /*fileInputHover*/ ctx[1]);
-    			add_location(div0, file, 75, 4, 1736);
+    			add_location(div0, file, 72, 4, 1645);
     			attr_dev(div1, "class", "file-upload-container svelte-1pbzo3a");
     			attr_dev(div1, "onanimationend", div1_onanimationend_value = func_1);
     			toggle_class(div1, "animate__shakeX", /*error*/ ctx[2]);
-    			add_location(div1, file, 74, 2, 1590);
+    			add_location(div1, file, 71, 2, 1499);
     			attr_dev(input1, "class", "searchable-dropdown svelte-1pbzo3a");
     			attr_dev(input1, "type", "text");
     			input1.value = input1_value_value = `.${/*fileFormat*/ ctx[0]}`;
-    			add_location(input1, file, 101, 4, 2479);
+    			add_location(input1, file, 98, 4, 2388);
     			option.disabled = true;
     			option.__value = "Other formats";
     			option.value = option.__value;
-    			add_location(option, file, 108, 6, 2806);
+    			add_location(option, file, 105, 6, 2715);
     			attr_dev(select, "class", "svelte-1pbzo3a");
-    			add_location(select, file, 102, 4, 2589);
+    			add_location(select, file, 99, 4, 2498);
     			attr_dev(div2, "class", "dropdown-container svelte-1pbzo3a");
-    			add_location(div2, file, 100, 2, 2442);
+    			add_location(div2, file, 97, 2, 2351);
     			attr_dev(section, "class", "input-container svelte-1pbzo3a");
-    			add_location(section, file, 73, 0, 1554);
+    			add_location(section, file, 70, 0, 1463);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1544,7 +1544,6 @@ var app = (function () {
     	let error = "";
     	let selectRef;
     	const commonFileFormats = ["mp4", "mov", "flv", "avi", "webm", "mkv", "gif", "mp3"];
-    	const demuxFormats = demuxingFormats;
     	const muxFormats = muxingFormats.filter(format => !commonFileFormats.includes(format));
 
     	const highlight = e => {
@@ -1596,7 +1595,6 @@ var app = (function () {
     		}
     	};
 
-    	// TODO: This lol, have to make custom dropdown
     	const handleDropdownSearch = () => {
     		selectRef.focus();
     	};
@@ -1632,7 +1630,6 @@ var app = (function () {
     		error,
     		selectRef,
     		commonFileFormats,
-    		demuxFormats,
     		muxFormats,
     		highlight,
     		unhighlight,
@@ -3293,7 +3290,7 @@ var app = (function () {
     /* src/Interactable.svelte generated by Svelte v3.30.0 */
     const file$2 = "src/Interactable.svelte";
 
-    // (51:2) {#if video.name}
+    // (44:2) {#if video.name}
     function create_if_block_2(ctx) {
     	let div1;
     	let div0;
@@ -3336,19 +3333,19 @@ var app = (function () {
     			span.textContent = "Convert";
     			attr_dev(path0, "d", "M472.897,124.269c-0.01-0.01-0.02-0.02-0.03-0.031l-0.017,0.017l-68.267-68.267c-6.78-6.548-17.584-6.36-24.132,0.42\n                c-6.388,6.614-6.388,17.099,0,23.713l39.151,39.151h-95.334c-65.948,0.075-119.391,53.518-119.467,119.467\n                c-0.056,47.105-38.228,85.277-85.333,85.333h-102.4C7.641,324.072,0,331.713,0,341.139s7.641,17.067,17.067,17.067h102.4\n                c65.948-0.075,119.391-53.518,119.467-119.467c0.056-47.105,38.228-85.277,85.333-85.333h95.334l-39.134,39.134\n                c-6.78,6.548-6.968,17.353-0.419,24.132c6.548,6.78,17.353,6.968,24.132,0.419c0.142-0.137,0.282-0.277,0.419-0.419l68.267-68.267\n                C479.54,141.748,479.553,130.942,472.897,124.269z");
     			attr_dev(path0, "class", "svelte-ncd8cq");
-    			add_location(path0, file$2, 58, 14, 1663);
-    			add_location(g0, file$2, 57, 12, 1645);
-    			add_location(g1, file$2, 56, 10, 1629);
+    			add_location(path0, file$2, 51, 14, 1408);
+    			add_location(g0, file$2, 50, 12, 1390);
+    			add_location(g1, file$2, 49, 10, 1374);
     			attr_dev(path1, "d", "M472.897,329.069c-0.01-0.01-0.02-0.02-0.03-0.03l-0.017,0.017l-68.267-68.267c-6.78-6.548-17.584-6.36-24.132,0.42\n                c-6.388,6.614-6.388,17.099,0,23.712l39.151,39.151h-95.334c-20.996,0.015-41.258-7.721-56.9-21.726\n                c-7.081-6.222-17.864-5.525-24.086,1.555c-6.14,6.988-5.553,17.605,1.319,23.874c21.898,19.614,50.269,30.451,79.667,30.43h95.334\n                l-39.134,39.134c-6.78,6.548-6.968,17.352-0.42,24.132c6.548,6.78,17.352,6.968,24.132,0.42c0.142-0.138,0.282-0.277,0.42-0.42\n                l68.267-68.267C479.54,346.548,479.553,335.742,472.897,329.069z");
     			attr_dev(path1, "class", "svelte-ncd8cq");
-    			add_location(path1, file$2, 68, 14, 2482);
-    			add_location(g2, file$2, 67, 12, 2464);
-    			add_location(g3, file$2, 66, 10, 2448);
+    			add_location(path1, file$2, 61, 14, 2227);
+    			add_location(g2, file$2, 60, 12, 2209);
+    			add_location(g3, file$2, 59, 10, 2193);
     			attr_dev(path2, "d", "M199.134,149.702c-21.898-19.614-50.269-30.451-79.667-30.43h-102.4C7.641,119.272,0,126.913,0,136.339\n                c0,9.426,7.641,17.067,17.067,17.067h102.4c20.996-0.015,41.258,7.721,56.9,21.726c7.081,6.222,17.864,5.525,24.086-1.555\n                C206.593,166.588,206.006,155.971,199.134,149.702z");
     			attr_dev(path2, "class", "svelte-ncd8cq");
-    			add_location(path2, file$2, 77, 14, 3190);
-    			add_location(g4, file$2, 76, 12, 3172);
-    			add_location(g5, file$2, 75, 10, 3156);
+    			add_location(path2, file$2, 70, 14, 2935);
+    			add_location(g4, file$2, 69, 12, 2917);
+    			add_location(g5, file$2, 68, 10, 2901);
     			attr_dev(svg, "version", "1.1");
     			attr_dev(svg, "id", "Capa_1");
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
@@ -3361,13 +3358,13 @@ var app = (function () {
     			attr_dev(svg, "xml:space", "preserve");
     			attr_dev(svg, "viewBox", "150 70 350 350");
     			attr_dev(svg, "class", "svelte-ncd8cq");
-    			add_location(svg, file$2, 53, 8, 1355);
+    			add_location(svg, file$2, 46, 8, 1100);
     			attr_dev(div0, "class", "svelte-ncd8cq");
-    			add_location(div0, file$2, 52, 6, 1341);
+    			add_location(div0, file$2, 45, 6, 1086);
     			attr_dev(span, "class", "svelte-ncd8cq");
-    			add_location(span, file$2, 84, 6, 3603);
+    			add_location(span, file$2, 77, 6, 3348);
     			attr_dev(div1, "class", "convert-container svelte-ncd8cq");
-    			add_location(div1, file$2, 51, 4, 1248);
+    			add_location(div1, file$2, 44, 4, 993);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -3443,14 +3440,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(51:2) {#if video.name}",
+    		source: "(44:2) {#if video.name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (88:2) {#if isConverting}
+    // (81:2) {#if isConverting}
     function create_if_block_1$1(ctx) {
     	let progressbar;
     	let updating_progress;
@@ -3506,14 +3503,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(88:2) {#if isConverting}",
+    		source: "(81:2) {#if isConverting}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:2) {#if output}
+    // (84:2) {#if output}
     function create_if_block$1(ctx) {
     	let a;
     	let div;
@@ -3548,14 +3545,14 @@ var app = (function () {
     			span.textContent = "Download";
     			attr_dev(path0, "d", "M382.56,233.376C379.968,227.648,374.272,224,368,224h-64V16c0-8.832-7.168-16-16-16h-64c-8.832,0-16,7.168-16,16v208h-64\n                c-6.272,0-11.968,3.68-14.56,9.376c-2.624,5.728-1.6,12.416,2.528,17.152l112,128c3.04,3.488,7.424,5.472,12.032,5.472\n                c4.608,0,8.992-2.016,12.032-5.472l112-128C384.192,245.824,385.152,239.104,382.56,233.376z");
     			attr_dev(path0, "class", "svelte-ncd8cq");
-    			add_location(path0, file$2, 97, 14, 4155);
-    			add_location(g0, file$2, 96, 12, 4137);
-    			add_location(g1, file$2, 95, 10, 4121);
+    			add_location(path0, file$2, 90, 14, 3900);
+    			add_location(g0, file$2, 89, 12, 3882);
+    			add_location(g1, file$2, 88, 10, 3866);
     			attr_dev(path1, "d", "M432,352v96H80v-96H16v128c0,17.696,14.336,32,32,32h416c17.696,0,32-14.304,32-32V352H432z");
     			attr_dev(path1, "class", "svelte-ncd8cq");
-    			add_location(path1, file$2, 104, 14, 4633);
-    			add_location(g2, file$2, 103, 12, 4615);
-    			add_location(g3, file$2, 102, 10, 4599);
+    			add_location(path1, file$2, 97, 14, 4378);
+    			add_location(g2, file$2, 96, 12, 4360);
+    			add_location(g3, file$2, 95, 10, 4344);
     			attr_dev(svg, "version", "1.1");
     			attr_dev(svg, "id", "Capa_1");
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
@@ -3568,15 +3565,15 @@ var app = (function () {
     			attr_dev(svg, "width", "30px");
     			attr_dev(svg, "height", "30px");
     			attr_dev(svg, "class", "svelte-ncd8cq");
-    			add_location(svg, file$2, 93, 8, 3861);
+    			add_location(svg, file$2, 86, 8, 3606);
     			attr_dev(div, "class", "svelte-ncd8cq");
-    			add_location(div, file$2, 92, 6, 3847);
+    			add_location(div, file$2, 85, 6, 3592);
     			attr_dev(span, "class", "svelte-ncd8cq");
-    			add_location(span, file$2, 109, 6, 4835);
+    			add_location(span, file$2, 102, 6, 4580);
     			attr_dev(a, "href", /*output*/ ctx[3]);
     			attr_dev(a, "download", a_download_value = `download.${/*fileFormat*/ ctx[1]}`);
     			attr_dev(a, "class", "download-container svelte-ncd8cq");
-    			add_location(a, file$2, 91, 4, 3724);
+    			add_location(a, file$2, 84, 4, 3469);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -3642,7 +3639,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(91:2) {#if output}",
+    		source: "(84:2) {#if output}",
     		ctx
     	});
 
@@ -3667,7 +3664,7 @@ var app = (function () {
     			t1 = space();
     			if (if_block2) if_block2.c();
     			attr_dev(section, "class", "interactables-container svelte-ncd8cq");
-    			add_location(section, file$2, 49, 0, 1183);
+    			add_location(section, file$2, 42, 0, 928);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3802,9 +3799,6 @@ var app = (function () {
 
     	const convert = async () => {
     		const { name } = video;
-
-    		// console.log(fileFormat);
-    		// console.log(`${name}, ${size / 1024} kb`);
     		$$invalidate(4, isConverting = true);
 
     		if (!ffmpeg.isLoaded()) {

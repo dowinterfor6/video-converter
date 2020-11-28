@@ -12,9 +12,7 @@
 
   const commonFileFormats = ["mp4", "mov", "flv", "avi", "webm", "mkv", "gif", "mp3"];
 
-  const demuxFormats = demuxingFormats;
   const muxFormats = muxingFormats.filter((format) => !commonFileFormats.includes(format));
-
 
   const highlight = (e) => {
     fileInputHover = true;
@@ -65,7 +63,6 @@
     }
   }
 
-  // TODO: This lol, have to make custom dropdown
   const handleDropdownSearch = () => {
     selectRef.focus();
   }
