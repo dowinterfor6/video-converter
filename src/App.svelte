@@ -1,11 +1,7 @@
 <script>
+	import Disclaimer from './components/Disclaimer.svelte';
 	import Input from './components/Input.svelte';
 	import Interactable from './components/Interactable.svelte';
-
-	// let video = {};
-	// let fileFormat = ".mp4";
-	// let fileInputError = "";
-	// let dropdownInputError = "";
 </script>
 
 <main>
@@ -14,11 +10,12 @@
 	<!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
 	<!-- <div>Down arrow icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- <div>Close icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+	<!-- Loading spinner https://codepen.io/Paolo-Duzioni/pen/ZoRabJ -->
 
-	<!-- <Input bind:video bind:fileFormat bind:fileInputError bind:dropdownInputError/>
-	<Interactable bind:video bind:fileFormat bind:fileInputError bind:dropdownInputError/> -->
 	<Input/>
 	<Interactable/>
+	<Disclaimer />
 </main>
 
 <style lang="scss">

@@ -1,9 +1,4 @@
 <script>
-  // export let video;
-  // export let fileFormat;
-  // export let fileInputError;
-  // export let dropdownInputError;
-
   import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
   import { fade, draw } from 'svelte/transition';
   import ProgressBar from './ProgressBar.svelte';
@@ -11,6 +6,7 @@
   import { video, fileFormat, fileInputError, dropdownInputError } from "../store/store";
 
   let videoFile, fileError, dropdownError, format;
+  let prevVideoFile, prevFormat;
 
   fileFormat.subscribe((value) => format = value);
 
@@ -29,7 +25,10 @@
   let progress = 0;
   let output, isConverting;
 
-  $: showConvertButton = videoFile.name && !fileError && !dropdownError;
+  $: errors = fileError || dropdownError;
+  $: inputOrFormatChanged = prevVideoFile !== videoFile || prevFormat !== format;
+  $: showConvertButton = videoFile.name && !errors && !isConverting && inputOrFormatChanged;
+  $: showDownloadButton = output && !inputOrFormatChanged;
 
   const ffmpeg = createFFmpeg({
     log: true, 
@@ -56,12 +55,13 @@
 
     await ffmpeg.run('-i', name, '-f', `${fileFormatWithoutDot}`, `out.${fileFormatWithoutDot}`);
     
-
 		const data = ffmpeg.FS('readFile', `out.${fileFormatWithoutDot}`);
 		const url = URL.createObjectURL(new Blob([data.buffer]), { type: `video/${fileFormatWithoutDot}` });
 
 		output = url;
-		isConverting = false;
+    isConverting = false;
+    prevVideoFile = videoFile;
+    prevFormat = format;
   }
 </script>
 
@@ -106,7 +106,7 @@
   {#if isConverting}
     <ProgressBar bind:progress/>
   {/if}
-  {#if output}
+  {#if showDownloadButton}
     <a href={output} download={`${videoFile.name.split(".")[0]}${format}`} class="download-container" transition:fade={{ duration: 300 }}>
       <div>
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -137,8 +137,6 @@
     width: 250px;
     padding: 10px 20px;
     background-color: $light-blue;
-    // border-top-right-radius: 45px;
-    // border-bottom-left-radius: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -186,6 +184,10 @@
   }
 
   .interactables-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: 40px;
 
     .convert-container {

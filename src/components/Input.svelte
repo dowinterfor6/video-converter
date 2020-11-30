@@ -1,13 +1,7 @@
 <script>
-  // export let video;
-  // export let fileFormat;
-  // export let fileInputError;
-  // export let dropdownInputError;
-
   import { demuxingFormats, muxingFormats } from "../variables";
   import { video, fileFormat, fileInputError, dropdownInputError } from "../store/store";
 
-  // $: videoName = video?.name;
   let videoName, fileError, dropdownError, format;
 
   fileFormat.subscribe((value) => format = value);
@@ -75,28 +69,22 @@
   const validateFile = (file) => {
     if (!file) return;
 
-    // Check extension, in case multiple dots
     const fileNameSplit = file.name.split(".");
     if (
       file.type.split("/")[0] !== "video" ||
       !demuxingFormats.includes(`.${fileNameSplit[fileNameSplit.length - 1]}`)
     ) {
-      // fileInputError = "Error: Invalid file type";
       fileInputError.set("Error: Invalid file type");
     } else if (file.size / 1024 / 1024 / 1024 >= 2) {
-      // fileInputError = "Error: File exceeded 2gb size limit";
       fileInputError.set("Error: File exceeded 2gb size limit");
     } else {
-      // fileInputError = "";
       fileInputError.set("");
-      // video = file;
       video.set(file);
     }
   }
 
   const handleDropdownSearch = (e) => {
     dropdownSearchQuery = e.currentTarget.value;
-    // dropdownInputError = "";
     dropdownInputError.set("");
   }
 
@@ -109,20 +97,16 @@
     
     if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
       dropdownActive = false;
-      // fileFormat = dropdownSearchQuery;
       fileFormat.set(dropdownSearchQuery);
     } else {
       dropdownActive = true;
-      // dropdownInputError = "Not a valid file format";
       dropdownInputError.set("Not a valid file format");
     }
   }
 
   const setDropdownValue = (e) => {
-    // dropdownInputError = "";
     dropdownInputError.set("");
     dropdownSearchQuery = e.currentTarget.dataset.format;
-    // fileFormat = e.currentTarget.dataset.format;
     fileFormat.set(e.currentTarget.dataset.format);
     dropdownActive = false;
   }
@@ -192,17 +176,6 @@
           </li>
         {/if}
       {/each}
-      <!-- {#each commonFileFormats as format}
-        <li value={format}>
-          {format}
-        </li>
-      {/each}
-      <li class="disabled">Other formats</li>
-      {#each muxFormats as format}
-        <li value={format}>
-          {format}
-        </li>
-      {/each} -->
     </ul>
   </div>
 </section>
@@ -240,12 +213,6 @@
       width: 400px;
       margin-bottom: 10px;
       transition: all 0.3s;
-
-      // &.animate__shakeX {
-      //   -webkit-animation-name: shakeX;
-      //   animation-name: shakeX;
-      //   animation-duration: 0.3s;
-      // }
       
       &:hover {
         background-color: $grey;
@@ -300,6 +267,7 @@
       }
 
       ul {
+        z-index: 5;
         max-height: 200px;
         width: $dropdownWidth;
         overflow-y: auto;
@@ -314,6 +282,7 @@
         top: -1px;
         margin: 0;
         display: none;
+        background:white;
 
         &.open {
           display: inherit;
