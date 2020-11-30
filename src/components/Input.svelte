@@ -1,10 +1,15 @@
 <script>
   import { demuxingFormats, muxingFormats } from "../variables";
-  import { video, fileFormat, fileInputError, dropdownInputError } from "../store/store";
+  import {
+    video,
+    fileFormat,
+    fileInputError,
+    dropdownInputError,
+  } from "../store/store";
 
   let videoName, fileError, dropdownError, format;
 
-  fileFormat.subscribe((value) => format = value);
+  fileFormat.subscribe((value) => (format = value));
 
   fileInputError.subscribe((err) => {
     fileError = err;
@@ -22,49 +27,63 @@
   let dropdownActive;
   let dropdownSearchQuery = format;
 
-  const commonFileFormats = [".mp4", ".mov", ".flv", ".avi", ".webm", ".mkv", ".gif", ".mp3"];
+  const commonFileFormats = [
+    ".mp4",
+    ".mov",
+    ".flv",
+    ".avi",
+    ".webm",
+    ".mkv",
+    ".gif",
+    ".mp3",
+  ];
 
-  const muxFormats = muxingFormats.filter((format) => !commonFileFormats.includes(format));
+  const muxFormats = muxingFormats.filter(
+    (format) => !commonFileFormats.includes(format)
+  );
 
-  $: filteredFileFormats = 
-    ["Common", ...commonFileFormats, "Other", ...muxFormats]
-    .filter((format) => format.includes(dropdownSearchQuery));
+  $: filteredFileFormats = [
+    "Common",
+    ...commonFileFormats,
+    "Other",
+    ...muxFormats,
+  ].filter((format) => format.includes(dropdownSearchQuery));
 
   const highlight = (e) => {
     fileInputHover = true;
     e.preventDefault();
     e.stopPropagation();
-  }
+  };
 
   const unhighlight = (e) => {
     fileInputHover = false;
     e.preventDefault();
     e.stopPropagation();
-  }
+  };
 
   const handleDragEnter = (e) => {
     highlight(e);
-  }
+  };
 
   const handleDragOver = (e) => {
     highlight(e);
-  }
+  };
 
   const handleDragLeave = (e) => {
     unhighlight(e);
-  }
+  };
 
   const handleDragDrop = (e) => {
     unhighlight(e);
     const data = e.dataTransfer;
     const file = data.files?.item(0);
     validateFile(file);
-  }
+  };
 
   const handleFileInputChange = (e) => {
     const file = e.currentTarget.files?.item(0);
     validateFile(file);
-  }
+  };
 
   const validateFile = (file) => {
     if (!file) return;
@@ -81,20 +100,20 @@
       fileInputError.set("");
       video.set(file);
     }
-  }
+  };
 
   const handleDropdownSearch = (e) => {
     dropdownSearchQuery = e.currentTarget.value;
     dropdownInputError.set("");
-  }
+  };
 
   const handleDropdownOpen = () => {
     dropdownActive = true;
-  }
+  };
 
   const handleDropdownBlur = (e) => {
     e.preventDefault();
-    
+
     if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
       dropdownActive = false;
       fileFormat.set(dropdownSearchQuery);
@@ -102,83 +121,15 @@
       dropdownActive = true;
       dropdownInputError.set("Not a valid file format");
     }
-  }
+  };
 
   const setDropdownValue = (e) => {
     dropdownInputError.set("");
     dropdownSearchQuery = e.currentTarget.dataset.format;
     fileFormat.set(e.currentTarget.dataset.format);
     dropdownActive = false;
-  }
+  };
 </script>
-
-<section class="input-container">
-  <div class="file-upload-container" class:animate__shakeX={fileError} onanimationend={(e) => e.currentTarget.classList.remove("animate__shakeX")}>
-    <div
-      class="file-upload-wrapper"
-      class:highlight={fileInputHover}
-      on:dragenter={handleDragEnter}
-      on:dragleave={handleDragLeave}
-      on:dragover={handleDragOver}
-      on:drop={handleDragDrop}
-    >
-      <input id="file-input" type="file" on:change={handleFileInputChange} accept={demuxingFormats.join(", ")}>
-      <label
-        for="file-input"
-      >
-        {#if videoName}
-          <span>{videoName}</span>
-        {:else}
-          {#if fileError}
-            <span class="error-message">{fileError}</span>
-          {:else}
-            <span>Choose a video or drag it here</span>
-          {/if}
-        {/if}
-      </label>
-    </div>
-  </div>
-
-  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
-    {#if dropdownError}
-      <span class="error-message">{dropdownError}</span>
-    {/if}
-    <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
-      <input
-        type="text"
-        value={format}
-        on:input={handleDropdownSearch}
-        on:focus={handleDropdownOpen}
-        on:blur={handleDropdownBlur}
-      >
-      <div class:flipped={dropdownActive} on:click={() => dropdownActive = !dropdownActive}>
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 -60 512 512" width="20px" height="30px" xml:space="preserve">
-          <g>
-            <g>
-              <path d="M505.752,123.582c-8.331-8.331-21.839-8.331-30.17,0L256,343.163L36.418,123.582c-8.331-8.331-21.839-8.331-30.17,0
-                s-8.331,21.839,0,30.17l234.667,234.667c8.331,8.331,21.839,8.331,30.17,0l234.667-234.667
-                C514.083,145.42,514.083,131.913,505.752,123.582z"/>
-            </g>
-          </g>
-        </svg>
-      </div>
-    </form>
-    <ul class:open={dropdownActive}>
-      {#each filteredFileFormats as format}
-        {#if format.includes(".")}
-          <li data-format={format} on:mousedown={setDropdownValue}>
-            {format}
-          </li>
-        {:else}
-          <li class="disabled">
-            {format}
-          </li>
-        {/if}
-      {/each}
-    </ul>
-  </div>
-</section>
 
 <style lang="scss">
   @import "../style/global.scss";
@@ -199,21 +150,21 @@
     justify-content: center;
     align-items: center;
     color: $dark-blue;
-    
+
     input {
       margin: 0;
       height: 50px;
     }
-    
+
     .file-upload-container {
       border: 1px solid #ccc;
       border-radius: 2px;
       padding: 7.5px;
-      height: 200px;
-      width: 400px;
+      height: 300px;
+      width: 600px;
       margin-bottom: 10px;
       transition: all 0.3s;
-      
+
       &:hover {
         background-color: $grey;
         color: $blue;
@@ -226,7 +177,7 @@
 
         &.highlight {
           border-color: green;
-          background: green
+          background: green;
         }
 
         label {
@@ -282,7 +233,7 @@
         top: -1px;
         margin: 0;
         display: none;
-        background:white;
+        background: white;
 
         &.open {
           display: inherit;
@@ -332,7 +283,7 @@
           border: 0;
           width: 100%;
           padding: 5px 7.5px;
-  
+
           &:focus {
             outline: none;
           }
@@ -363,3 +314,76 @@
     }
   }
 </style>
+
+<section class="input-container">
+  <div
+    class="file-upload-container"
+    class:animate__shakeX={fileError}
+    onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}>
+    <div
+      class="file-upload-wrapper"
+      class:highlight={fileInputHover}
+      on:dragenter={handleDragEnter}
+      on:dragleave={handleDragLeave}
+      on:dragover={handleDragOver}
+      on:drop={handleDragDrop}>
+      <input
+        id="file-input"
+        type="file"
+        on:change={handleFileInputChange}
+        accept={demuxingFormats.join(', ')} />
+      <label for="file-input">
+        {#if videoName}
+          <span>{videoName}</span>
+        {:else if fileError}
+          <span class="error-message">{fileError}</span>
+        {:else}<span>Choose a video or drag it here</span>{/if}
+      </label>
+    </div>
+  </div>
+
+  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
+    {#if dropdownError}<span class="error-message">{dropdownError}</span>{/if}
+    <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
+      <input
+        type="text"
+        value={format}
+        on:input={handleDropdownSearch}
+        on:focus={handleDropdownOpen}
+        on:blur={handleDropdownBlur} />
+      <div
+        class:flipped={dropdownActive}
+        on:click={() => (dropdownActive = !dropdownActive)}>
+        <svg
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 -60 512 512"
+          width="20px"
+          height="30px"
+          xml:space="preserve">
+          <g>
+            <g>
+              <path
+                d="M505.752,123.582c-8.331-8.331-21.839-8.331-30.17,0L256,343.163L36.418,123.582c-8.331-8.331-21.839-8.331-30.17,0
+                s-8.331,21.839,0,30.17l234.667,234.667c8.331,8.331,21.839,8.331,30.17,0l234.667-234.667
+                C514.083,145.42,514.083,131.913,505.752,123.582z" />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </form>
+    <ul class:open={dropdownActive}>
+      {#each filteredFileFormats as format}
+        {#if format.includes('.')}
+          <li data-format={format} on:mousedown={setDropdownValue}>{format}</li>
+        {:else}
+          <li class="disabled">{format}</li>
+        {/if}
+      {/each}
+    </ul>
+  </div>
+</section>

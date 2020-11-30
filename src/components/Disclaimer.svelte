@@ -1,16 +1,7 @@
 <script>
-  import { fade } from 'svelte/transition';
+  import { fade } from "svelte/transition";
   let show = true;
 </script>
-
-{#if show}
-  <footer transition:fade={{ duration: 200 }}>
-    Disclaimer: Files are not stored, and used for the sole purpose of conversion.
-    <div>
-      <button on:click={() => show = false}>Got it!</button>
-    </div>
-  </footer>
-{/if}
 
 <style lang="scss">
   footer {
@@ -31,3 +22,11 @@
     }
   }
 </style>
+
+{#if show}
+  <footer transition:fade={{ duration: 200 }}>
+    Disclaimer: Files are not stored, and only used for the sole purpose of
+    conversion.
+    <div><button on:click={() => (show = false)}>Got it!</button></div>
+  </footer>
+{/if}

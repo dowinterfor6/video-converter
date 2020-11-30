@@ -1,58 +1,65 @@
 <script>
   export let progress;
 
-  import { fade } from "svelte/transition"
+  import { fade } from "svelte/transition";
 </script>
-
-<span>
-  <div class="spinner"></div> Converting...
-</span>
-<div class="progress-bar-container" transition:fade={{ duration: 1000 }}>
-  <div class="progress-bar" style={`width: ${progress}%`}>
-  </div>
-</div>
 
 <style lang="scss">
   @import "../style/global.scss";
 
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-
-    .spinner{
-      height: 25px;
-      width: 25px;
-      border-top: 3px solid rgba(black, .5);
-      border-right: 3px solid transparent;
-      border-radius: 50%;
-      animation: rotation .8s linear infinite;
-      margin-right: 10px;
-    }
-  }
-
-  @keyframes rotation{
-    from{
+  @keyframes rotation {
+    from {
       transform: rotate(0deg);
     }
-    to{
+    to {
       transform: rotate(360deg);
     }
   }
 
   .progress-bar-container {
-    width: 500px;
-    border: 2px solid $dark-blue;
-    border-radius: 30px;
-    height: 20px;
-    overflow: hidden;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
 
-    .progress-bar {
-      background: $light-blue;
-      width: 0;
-      height: 30px;
-      transition: width 0.3s;
+      .spinner {
+        height: 25px;
+        width: 25px;
+        border-top: 3px solid rgba(black, 0.5);
+        border-right: 3px solid transparent;
+        border-radius: 50%;
+        animation: rotation 0.8s linear infinite;
+        margin-right: 10px;
+      }
+    }
+
+    .progress-bar-wrapper {
+      width: 500px;
+      border: 2px solid $dark-blue;
+      border-radius: 30px;
+      height: 20px;
+      overflow: hidden;
+
+      .progress-bar {
+        background: $light-blue;
+        width: 0;
+        height: 30px;
+        transition: width 0.3s;
+      }
     }
   }
 </style>
+
+<!-- TODO: Temp solution -->
+<div
+  class="progress-bar-container"
+  transition:fade={{ duration: 300, delay: 1500 }}>
+  <span>
+    <div class="spinner" />
+    Converting
+  </span>
+  <div class="progress-bar-wrapper">
+    <div class="progress-bar" style={`width: ${progress}%`} />
+  </div>
+</div>

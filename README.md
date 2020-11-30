@@ -2,18 +2,27 @@
 
 ## Todos
 Medium article on svelte deploy
-Add donate/gh-issues
-Add googleadsense ads while converting/handle adblock
 
 Nav bar for links
+- Donate
+- gh-issues
+- Credit icon authors properly
+- Github repo
+- LinkedIn?
 
-Style interactables to be on top of each other instead of separated
+Add googleadsense ads while converting/handle adblock
+
+Style interactables to be on top of each other instead of separated (this is annoying)
 
 Add try/catch for conversion process
 
-Add noscript, meta, seo stuff
-Credit icon authors properly
-Disclaimer
+SEO
+
+Refactor
+
+Media queries/responsiveness/PWA
+
+Come up with a better name
 
 ### Cant Repro
 Type incorrect file type, press enter, press value, doesn't work (can't repro?)
