@@ -94,8 +94,10 @@
       !demuxingFormats.includes(`.${fileNameSplit[fileNameSplit.length - 1]}`)
     ) {
       fileInputError.set("Error: Invalid file type");
+      video.set({});
     } else if (file.size / 1024 / 1024 / 1024 >= 2) {
-      fileInputError.set("Error: File exceeded 2gb size limit");
+      fileInputError.set("Error: File exceeded 2GB size limit");
+      video.set({});
     } else {
       fileInputError.set("");
       video.set(file);
@@ -157,13 +159,11 @@
     }
 
     .file-upload-container {
-      border: 1px solid #ccc;
-      border-radius: 2px;
-      padding: 7.5px;
-      height: 300px;
-      width: 600px;
       margin-bottom: 10px;
       transition: all 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:hover {
         background-color: $grey;
@@ -171,13 +171,14 @@
       }
 
       .file-upload-wrapper {
-        border: 1px dashed #ccc;
-        height: 100%;
-        width: 100%;
+        border: 5px dashed #ccc;
+        height: 300px;
+        width: 600px;
 
         &.highlight {
-          border-color: green;
-          background: green;
+          // Same as above container
+          background-color: $grey;
+          color: $blue;
         }
 
         label {
@@ -189,9 +190,18 @@
           justify-content: center;
           cursor: pointer;
           user-select: none;
+          font-size: 28px;
+
+          span:not(.file-size-limit) {
+            margin: 20px 0;
+          }
 
           .error-message {
             color: $errorColor;
+          }
+
+          .file-size-limit {
+            font-size: 16px;
           }
         }
 
@@ -316,13 +326,12 @@
 </style>
 
 <section class="input-container">
-  <div
-    class="file-upload-container"
-    class:animate__shakeX={fileError}
-    onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}>
+  <div class="file-upload-container">
     <div
       class="file-upload-wrapper"
+      class:animate__shakeX={fileError}
       class:highlight={fileInputHover}
+      onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}
       on:dragenter={handleDragEnter}
       on:dragleave={handleDragLeave}
       on:dragover={handleDragOver}
@@ -337,7 +346,8 @@
           <span>{videoName}</span>
         {:else if fileError}
           <span class="error-message">{fileError}</span>
-        {:else}<span>Choose a video or drag it here</span>{/if}
+        {:else}<span>Drop your file here or <b>browse</b></span>{/if}
+        <span class="file-size-limit">File size limit: 2 GB</span>
       </label>
     </div>
   </div>

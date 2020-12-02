@@ -1,5 +1,4 @@
 <script>
-  import Disclaimer from "./components/Disclaimer.svelte";
   import Input from "./components/Input.svelte";
   import Interactable from "./components/Interactable.svelte";
 </script>
@@ -49,5 +48,4 @@
 
   <Input />
   <Interactable />
-  <Disclaimer />
 </main>

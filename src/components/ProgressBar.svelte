@@ -17,6 +17,8 @@
   }
 
   .progress-bar-container {
+    position: absolute;
+
     span {
       display: flex;
       justify-content: center;
@@ -35,7 +37,7 @@
     }
 
     .progress-bar-wrapper {
-      width: 500px;
+      width: $interactablesContainerWidth;
       border: 2px solid $dark-blue;
       border-radius: 30px;
       height: 20px;
@@ -54,10 +56,10 @@
 <!-- TODO: Temp solution -->
 <div
   class="progress-bar-container"
-  transition:fade={{ duration: 300, delay: 1500 }}>
+  transition:fade={{ duration: 200, delay: 400 }}>
   <span>
     <div class="spinner" />
-    Converting
+    Converting...
   </span>
   <div class="progress-bar-wrapper">
     <div class="progress-bar" style={`width: ${progress}%`} />
