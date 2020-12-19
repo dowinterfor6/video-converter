@@ -1,6 +1,7 @@
 <script>
   import Input from "./components/Input.svelte";
   import Interactable from "./components/Interactable.svelte";
+  import NavBar from "./components/NavBar.svelte";
 </script>
 
 <style lang="scss">
@@ -20,25 +21,59 @@
   main {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     height: 100%;
     text-align: center;
     padding: 1em;
     margin: 0 auto;
-  }
 
-  h1 {
-    font-family: "Montserrat", sans-serif;
-    color: $red;
-    font-size: 4em;
-    font-weight: 100;
-    margin-bottom: 75px;
+    .content-wrapper {
+      position: relative;
+      // Same as nav
+      width: 80%;
+      // Extra large breakpoint
+      max-width: 1200px;
+
+      .background {
+        z-index: -5;
+        position: absolute;
+        width: 100%;
+        background: #f3f3ff;
+        border-radius: 50px;
+        height: 375px;
+      }
+
+      .content {
+        padding: 25px 25px 0 25px;
+
+        h2 {
+          font-family: "Montserrat", sans-serif;
+          color: $dark-blue;
+          font-size: 56px;
+          font-weight: 100;
+          margin: 0 0 25px 0;
+        }
+
+        p {
+          color: $dark-blue;
+          font-size: 20px;
+          margin: 0 0 10px 0;
+
+          &.disclaimer {
+            color: rgb(73, 73, 73);
+            font-size: 12px;
+            // 2x content padding
+            margin-bottom: 50px;
+          }
+        }
+      }
+    }
   }
 </style>
 
 <main>
-  <h1>Video Converter</h1>
+  <NavBar />
   <!-- <div>Favicon made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
   <!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
   <!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
@@ -46,6 +81,20 @@
   <!-- <div>Close icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
   <!-- Loading spinner https://codepen.io/Paolo-Duzioni/pen/ZoRabJ -->
 
-  <Input />
-  <Interactable />
+  <section class="content-wrapper">
+    <div class="background" />
+    <div class="content">
+      <h2>Video format converter</h2>
+      <p>
+        No need to download an application, just upload your file and select a
+        format to convert to!
+      </p>
+      <p class="disclaimer">
+        File information is not stored anywhere, and files are not used for any
+        purpose other than conversion
+      </p>
+    </div>
+    <Input />
+    <Interactable />
+  </section>
 </main>

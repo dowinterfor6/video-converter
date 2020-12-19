@@ -159,11 +159,12 @@
     }
 
     .file-upload-container {
-      margin-bottom: 10px;
+      margin-bottom: 30px;
       transition: all 0.3s;
       display: flex;
       justify-content: center;
       align-items: center;
+      background-color: white;
 
       &:hover {
         background-color: $grey;
@@ -172,8 +173,8 @@
 
       .file-upload-wrapper {
         border: 5px dashed #ccc;
-        height: 300px;
-        width: 600px;
+        height: 250px;
+        width: 500px;
 
         &.highlight {
           // Same as above container
@@ -220,16 +221,20 @@
 
     .dropdown-container {
       width: $dropdownWidth;
-      height: $dropdownHeight;
+      // height: $dropdownHeight;
       position: relative;
 
       .error-message {
         color: $errorColor;
+        position: absolute;
+        left: 0;
+        top: -20px;
+        width: 100%;
       }
 
       ul {
         z-index: 5;
-        max-height: 200px;
+        max-height: 100px;
         width: $dropdownWidth;
         overflow-y: auto;
         overflow-x: hidden;
@@ -239,8 +244,8 @@
         padding: 0;
         color: $dark-blue;
         user-select: none;
-        position: relative;
-        top: -1px;
+        position: absolute;
+        transform: translateY(-1px);
         margin: 0;
         display: none;
         background: white;

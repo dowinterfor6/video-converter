@@ -1,6 +1,8 @@
 # Video Converter
 
 ## Todos
+Get prettier to work
+
 Medium article on svelte deploy
 
 Styling:
@@ -9,14 +11,11 @@ Styling:
 - UI/UX of dropdown
 
 Nav bar for links
-- Donate
 - gh-issues
 - Credit icon authors properly
 - Github repo
 - LinkedIn?
 - Help/faq
-
-Add googleadsense ads while converting/handle adblock
 
 Add try/catch for conversion process
 - Reset everything to prev state
@@ -35,6 +34,8 @@ Type incorrect file type, press enter, press value, doesn't work (can't repro?)
 - Click on default
 
 Interactable button fade out slightly overlap
+
+Open format type dropdown, select incorrect dropdown, click outside, button will show in front of dropdown for a brief second
 
 ### Cant Repro
 

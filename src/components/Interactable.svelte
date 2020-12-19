@@ -139,9 +139,11 @@
 
   .interactables-container {
     position: relative;
-    margin-top: 40px;
-    width: $interactablesContainerWidth; // Same as input?
-    height: inherit; // Temp solution
+    margin-top: 20px;
+    width: 100%;
+    // width: $interactablesContainerWidth; // Same as input?
+    // height: inherit; // Temp solution
+    height: 55px; // Actual temp solution hardcoded
 
     .convert-container {
       @include button(10px);
