@@ -5,6 +5,28 @@
   import Notification from "./components/Notification.svelte";
 </script>
 
+<main>
+  <NavBar />
+  <section class="content-wrapper">
+    <div class="background" />
+    <div class="content">
+      <h2>Video format converter</h2>
+      <p>
+        No need to download an application, just upload your file and select a
+        format to convert to!
+      </p>
+      <p class="disclaimer">
+        Disclaimer: File information is not stored anywhere, and files are not
+        used for any purpose other than conversion
+      </p>
+    </div>
+    <Input />
+    <Interactable />
+  </section>
+
+  <Notification />
+</main>
+
 <style lang="scss">
   @import "./style/global.scss";
 
@@ -72,32 +94,3 @@
     }
   }
 </style>
-
-<main>
-  <NavBar />
-  <!-- <div>Favicon made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-  <!-- <div>Download icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-  <!-- <div>Convert icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-  <!-- <div>Down arrow icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-  <!-- <div>Close icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-  <!-- Loading spinner https://codepen.io/Paolo-Duzioni/pen/ZoRabJ -->
-
-  <section class="content-wrapper">
-    <div class="background" />
-    <div class="content">
-      <h2>Video format converter</h2>
-      <p>
-        No need to download an application, just upload your file and select a
-        format to convert to!
-      </p>
-      <p class="disclaimer">
-        Disclaimer: File information is not stored anywhere, and files are not
-        used for any purpose other than conversion
-      </p>
-    </div>
-    <Input />
-    <Interactable />
-  </section>
-
-  <Notification />
-</main>

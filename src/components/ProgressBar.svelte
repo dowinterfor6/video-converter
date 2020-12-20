@@ -4,6 +4,18 @@
   import { fade } from "svelte/transition";
 </script>
 
+<div
+  class="progress-bar-container"
+  transition:fade={{ duration: 200, delay: 500 }}>
+  <span>
+    <div class="spinner" />
+    Converting...
+  </span>
+  <div class="progress-bar-wrapper">
+    <div class="progress-bar" style={`width: ${progress}%`} />
+  </div>
+</div>
+
 <style lang="scss">
   @import "../style/global.scss";
 
@@ -56,16 +68,3 @@
     }
   }
 </style>
-
-<!-- TODO: Temp solution -->
-<div
-  class="progress-bar-container"
-  transition:fade={{ duration: 200, delay: 400 }}>
-  <span>
-    <div class="spinner" />
-    Converting...
-  </span>
-  <div class="progress-bar-wrapper">
-    <div class="progress-bar" style={`width: ${progress}%`} />
-  </div>
-</div>

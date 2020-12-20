@@ -5,11 +5,12 @@
     fileFormat,
     fileInputError,
     dropdownInputError,
-    isFileConverting,
+    isFileConverting
   } from "../store/store";
 
   let videoName, fileError, dropdownError, format, isConverting;
 
+  // fileFormat.subscribe((value) => (format = value));
   fileFormat.subscribe((value) => (format = value));
 
   fileInputError.subscribe((err) => (fileError = err));
@@ -32,7 +33,7 @@
     ".webm",
     ".mkv",
     ".gif",
-    ".mp3",
+    ".mp3"
   ];
 
   const muxFormats = muxingFormats.filter(
@@ -41,7 +42,7 @@
 
   $: filteredFileFormats = [
     ...commonFileFormats,
-    ...muxFormats,
+    ...muxFormats
   ].filter((format) => format.includes(dropdownSearchQuery));
 
   const highlight = (e) => {
@@ -116,9 +117,10 @@
   const handleDropdownBlur = (e) => {
     e.preventDefault();
 
+    fileFormat.set(dropdownSearchQuery);
     if ([...muxFormats, ...commonFileFormats].includes(dropdownSearchQuery)) {
       dropdownActive = false;
-      fileFormat.set(dropdownSearchQuery);
+      dropdownInputError.set("");
     } else {
       dropdownActive = true;
       dropdownInputError.set("Not a valid file format");
@@ -132,6 +134,85 @@
     dropdownActive = false;
   };
 </script>
+
+<section class="input-container">
+  <div class="file-upload-container">
+    <div
+      class="file-upload-wrapper"
+      class:animate__shakeX={fileError}
+      class:highlight={fileInputHover}
+      onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}
+      on:dragenter={handleDragEnter}
+      on:dragleave={handleDragLeave}
+      on:dragover={handleDragOver}
+      on:drop={handleDragDrop}>
+      <input
+        id="file-input"
+        type="file"
+        disabled={isConverting}
+        on:change={handleFileInputChange}
+        accept={demuxingFormats.join(', ')} />
+      <label for="file-input">
+        {#if videoName}
+          <span>{videoName}</span>
+        {:else if fileError}
+          <span class="error-message">{fileError}</span>
+        {:else}<span>Drop your file here or <b>browse</b></span>{/if}
+        <span class="file-size-limit">File size limit: 2 GB</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
+    {#if dropdownError}<span class="error-message">{dropdownError}</span>{/if}
+    <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
+      <input
+        type="text"
+        value={format}
+        disabled={isConverting}
+        on:input={handleDropdownSearch}
+        on:focus={handleDropdownOpen}
+        on:blur={handleDropdownBlur} />
+      <div
+        class:flipped={dropdownActive}
+        on:click={() => {
+          if (!isConverting) {
+            dropdownActive = !dropdownActive;
+          }
+        }}>
+        <svg
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 -60 512 512"
+          width="20px"
+          height="30px"
+          xml:space="preserve">
+          <g>
+            <g>
+              <path
+                d="M505.752,123.582c-8.331-8.331-21.839-8.331-30.17,0L256,343.163L36.418,123.582c-8.331-8.331-21.839-8.331-30.17,0
+                s-8.331,21.839,0,30.17l234.667,234.667c8.331,8.331,21.839,8.331,30.17,0l234.667-234.667
+                C514.083,145.42,514.083,131.913,505.752,123.582z" />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </form>
+    <ul class:open={dropdownActive}>
+      {#each filteredFileFormats as format}
+        {#if format.includes('.')}
+          <li data-format={format} on:mousedown={setDropdownValue}>{format}</li>
+        {:else}
+          <li class="disabled">{format}</li>
+        {/if}
+      {/each}
+    </ul>
+  </div>
+</section>
 
 <style lang="scss">
   @import "../style/global.scss";
@@ -233,7 +314,7 @@
       }
 
       ul {
-        z-index: 5;
+        z-index: 20;
         max-height: 100px;
         width: $dropdownWidth;
         overflow-y: auto;
@@ -329,82 +410,3 @@
     }
   }
 </style>
-
-<section class="input-container">
-  <div class="file-upload-container">
-    <div
-      class="file-upload-wrapper"
-      class:animate__shakeX={fileError}
-      class:highlight={fileInputHover}
-      onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}
-      on:dragenter={handleDragEnter}
-      on:dragleave={handleDragLeave}
-      on:dragover={handleDragOver}
-      on:drop={handleDragDrop}>
-      <input
-        id="file-input"
-        type="file"
-        disabled={isConverting}
-        on:change={handleFileInputChange}
-        accept={demuxingFormats.join(', ')} />
-      <label for="file-input">
-        {#if videoName}
-          <span>{videoName}</span>
-        {:else if fileError}
-          <span class="error-message">{fileError}</span>
-        {:else}<span>Drop your file here or <b>browse</b></span>{/if}
-        <span class="file-size-limit">File size limit: 2 GB</span>
-      </label>
-    </div>
-  </div>
-
-  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
-    {#if dropdownError}<span class="error-message">{dropdownError}</span>{/if}
-    <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
-      <input
-        type="text"
-        value={format}
-        disabled={isConverting}
-        on:input={handleDropdownSearch}
-        on:focus={handleDropdownOpen}
-        on:blur={handleDropdownBlur} />
-      <div
-        class:flipped={dropdownActive}
-        on:click={() => {
-          if (!isConverting) {
-            dropdownActive = !dropdownActive;
-          }
-        }}>
-        <svg
-          version="1.1"
-          id="Layer_1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          viewBox="0 -60 512 512"
-          width="20px"
-          height="30px"
-          xml:space="preserve">
-          <g>
-            <g>
-              <path
-                d="M505.752,123.582c-8.331-8.331-21.839-8.331-30.17,0L256,343.163L36.418,123.582c-8.331-8.331-21.839-8.331-30.17,0
-                s-8.331,21.839,0,30.17l234.667,234.667c8.331,8.331,21.839,8.331,30.17,0l234.667-234.667
-                C514.083,145.42,514.083,131.913,505.752,123.582z" />
-            </g>
-          </g>
-        </svg>
-      </div>
-    </form>
-    <ul class:open={dropdownActive}>
-      {#each filteredFileFormats as format}
-        {#if format.includes('.')}
-          <li data-format={format} on:mousedown={setDropdownValue}>{format}</li>
-        {:else}
-          <li class="disabled">{format}</li>
-        {/if}
-      {/each}
-    </ul>
-  </div>
-</section>

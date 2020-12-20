@@ -9,6 +9,12 @@
   const close = () => notificationMessage.set("");
 </script>
 
+{#if message}
+  <div transition:fade={{ duration: 200 }}>
+    <p><span on:click={close}>×</span> {message}</p>
+  </div>
+{/if}
+
 <style lang="scss">
   @import "../style/global.scss";
 
@@ -44,9 +50,3 @@
     }
   }
 </style>
-
-{#if message}
-  <div transition:fade={{ duration: 200 }}>
-    <p><span on:click={close}>×</span> {message}</p>
-  </div>
-{/if}
