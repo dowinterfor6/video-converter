@@ -49,7 +49,7 @@
 
 <nav>
   <div class="left">
-    <h1>App Name + logo</h1>
+    <!-- <h1>App Name + logo</h1> -->
   </div>
   <ul class="right">
     <li>Donate</li>

@@ -2,6 +2,7 @@
   import Input from "./components/Input.svelte";
   import Interactable from "./components/Interactable.svelte";
   import NavBar from "./components/NavBar.svelte";
+  import Notification from "./components/Notification.svelte";
 </script>
 
 <style lang="scss">
@@ -45,7 +46,7 @@
       }
 
       .content {
-        padding: 25px 25px 0 25px;
+        padding: 50px 25px 0 25px;
 
         h2 {
           font-family: "Montserrat", sans-serif;
@@ -61,7 +62,7 @@
           margin: 0 0 10px 0;
 
           &.disclaimer {
-            color: rgb(73, 73, 73);
+            color: $dark-grey;
             font-size: 12px;
             // 2x content padding
             margin-bottom: 50px;
@@ -90,11 +91,13 @@
         format to convert to!
       </p>
       <p class="disclaimer">
-        File information is not stored anywhere, and files are not used for any
-        purpose other than conversion
+        Disclaimer: File information is not stored anywhere, and files are not
+        used for any purpose other than conversion
       </p>
     </div>
     <Input />
     <Interactable />
   </section>
+
+  <Notification />
 </main>

@@ -8,27 +8,25 @@
     fileFormat,
     fileInputError,
     dropdownInputError,
+    isFileConverting,
+    notificationMessage,
   } from "../store/store";
 
-  let videoFile, fileError, dropdownError, format;
+  let videoFile, fileError, dropdownError, format, isConverting;
   let prevVideoFile, prevFormat;
 
   fileFormat.subscribe((value) => (format = value));
 
-  fileInputError.subscribe((err) => {
-    fileError = err;
-  });
+  fileInputError.subscribe((err) => (fileError = err));
 
-  dropdownInputError.subscribe((err) => {
-    dropdownError = err;
-  });
+  dropdownInputError.subscribe((err) => (dropdownError = err));
 
-  video.subscribe((video) => {
-    videoFile = video;
-  });
+  video.subscribe((video) => (videoFile = video));
+
+  isFileConverting.subscribe((value) => (isConverting = value));
 
   let progress = 0;
-  let output, isConverting;
+  let output;
 
   $: errors = fileError || dropdownError;
   $: inputOrFormatChanged =
@@ -49,34 +47,42 @@
   const convert = async () => {
     const { name } = videoFile;
 
-    isConverting = true;
+    isFileConverting.set(true);
 
-    if (!ffmpeg.isLoaded()) {
-      await ffmpeg.load();
+    try {
+      if (!ffmpeg.isLoaded()) {
+        await ffmpeg.load();
+      }
+
+      ffmpeg.FS("writeFile", name, await fetchFile(videoFile));
+
+      // Assume file format is correct, in the form .format
+      const fileFormatWithoutDot = format.split(".")[1];
+
+      await ffmpeg.run(
+        "-i",
+        name,
+        "-f",
+        `${fileFormatWithoutDot}`,
+        `out.${fileFormatWithoutDot}`
+      );
+
+      const data = ffmpeg.FS("readFile", `out.${fileFormatWithoutDot}`);
+      const url = URL.createObjectURL(new Blob([data.buffer]), {
+        type: `video/${fileFormatWithoutDot}`,
+      });
+
+      output = url;
+      isFileConverting.set(false);
+      prevVideoFile = videoFile;
+      prevFormat = format;
+    } catch (error) {
+      // Pop up for reporting error/refresh page
+      notificationMessage.set(
+        "An error has occured! Please refresh the page. If you experience the same error again, please 'Report a bug'."
+      );
+      isFileConverting.set(false);
     }
-
-    ffmpeg.FS("writeFile", name, await fetchFile(videoFile));
-
-    // Assume file format is correct, in the form .format
-    const fileFormatWithoutDot = format.split(".")[1];
-
-    await ffmpeg.run(
-      "-i",
-      name,
-      "-f",
-      `${fileFormatWithoutDot}`,
-      `out.${fileFormatWithoutDot}`
-    );
-
-    const data = ffmpeg.FS("readFile", `out.${fileFormatWithoutDot}`);
-    const url = URL.createObjectURL(new Blob([data.buffer]), {
-      type: `video/${fileFormatWithoutDot}`,
-    });
-
-    output = url;
-    isConverting = false;
-    prevVideoFile = videoFile;
-    prevFormat = format;
   };
 </script>
 

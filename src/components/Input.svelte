@@ -5,23 +5,20 @@
     fileFormat,
     fileInputError,
     dropdownInputError,
+    isFileConverting,
   } from "../store/store";
 
-  let videoName, fileError, dropdownError, format;
+  let videoName, fileError, dropdownError, format, isConverting;
 
   fileFormat.subscribe((value) => (format = value));
 
-  fileInputError.subscribe((err) => {
-    fileError = err;
-  });
+  fileInputError.subscribe((err) => (fileError = err));
 
-  dropdownInputError.subscribe((err) => {
-    dropdownError = err;
-  });
+  dropdownInputError.subscribe((err) => (dropdownError = err));
 
-  video.subscribe((video) => {
-    videoName = video.name;
-  });
+  video.subscribe((video) => (videoName = video.name));
+
+  isFileConverting.subscribe((val) => (isConverting = val));
 
   let fileInputHover = false;
   let dropdownActive;
@@ -43,9 +40,7 @@
   );
 
   $: filteredFileFormats = [
-    "Common",
     ...commonFileFormats,
-    "Other",
     ...muxFormats,
   ].filter((format) => format.includes(dropdownSearchQuery));
 
@@ -62,18 +57,22 @@
   };
 
   const handleDragEnter = (e) => {
+    if (isConverting) return;
     highlight(e);
   };
 
   const handleDragOver = (e) => {
+    if (isConverting) return;
     highlight(e);
   };
 
   const handleDragLeave = (e) => {
+    if (isConverting) return;
     unhighlight(e);
   };
 
   const handleDragDrop = (e) => {
+    if (isConverting) return;
     unhighlight(e);
     const data = e.dataTransfer;
     const file = data.files?.item(0);
@@ -81,6 +80,7 @@
   };
 
   const handleFileInputChange = (e) => {
+    if (isConverting) return;
     const file = e.currentTarget.files?.item(0);
     validateFile(file);
   };
@@ -128,7 +128,7 @@
   const setDropdownValue = (e) => {
     dropdownInputError.set("");
     dropdownSearchQuery = e.currentTarget.dataset.format;
-    fileFormat.set(e.currentTarget.dataset.format);
+    fileFormat.set(dropdownSearchQuery);
     dropdownActive = false;
   };
 </script>
@@ -344,6 +344,7 @@
       <input
         id="file-input"
         type="file"
+        disabled={isConverting}
         on:change={handleFileInputChange}
         accept={demuxingFormats.join(', ')} />
       <label for="file-input">
@@ -363,12 +364,17 @@
       <input
         type="text"
         value={format}
+        disabled={isConverting}
         on:input={handleDropdownSearch}
         on:focus={handleDropdownOpen}
         on:blur={handleDropdownBlur} />
       <div
         class:flipped={dropdownActive}
-        on:click={() => (dropdownActive = !dropdownActive)}>
+        on:click={() => {
+          if (!isConverting) {
+            dropdownActive = !dropdownActive;
+          }
+        }}>
         <svg
           version="1.1"
           id="Layer_1"
