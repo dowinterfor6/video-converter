@@ -193,11 +193,11 @@
           background: white;
 
           li {
-            &:first-of-type {
-              border-top: 1px solid $medium-grey;
-            }
+            // &:first-of-type {
+            //   border-top: 1px solid $medium-grey;
+            // }
 
-            border-bottom: 1px solid $medium-grey;
+            // border-bottom: 1px solid $medium-grey;
             cursor: pointer;
             display: flex;
             justify-content: center;
