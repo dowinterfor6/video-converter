@@ -11,10 +11,7 @@
     <div class="background" />
     <div class="content">
       <h2>Video format converter</h2>
-      <p>
-        No need to download an application, just upload your file and select a
-        format to convert to!
-      </p>
+      <p>Upload your file and select a format to convert to!</p>
       <p class="disclaimer">
         Disclaimer: File information is not stored anywhere, and files are not
         used for any purpose other than conversion

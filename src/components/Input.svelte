@@ -14,8 +14,7 @@
     format,
     isConverting,
     fileInputHover = false,
-    dropdownActive,
-    dropdownSearchQuery = format;
+    dropdownActive;
 
   fileFormat.subscribe((value) => (format = value));
 
@@ -26,6 +25,8 @@
   video.subscribe((video) => (videoName = video.name));
 
   isFileConverting.subscribe((val) => (isConverting = val));
+
+  let dropdownSearchQuery = format;
 
   const commonFileFormats = [
     ".mp4",
@@ -106,6 +107,7 @@
   };
 
   const handleDropdownBlur = (e) => {
+    console.log("BLUR: ", dropdownSearchQuery);
     e.preventDefault();
 
     fileFormat.set(dropdownSearchQuery);
@@ -121,6 +123,7 @@
   const setDropdownValue = (e) => {
     dropdownInputError.set("");
     dropdownSearchQuery = e.currentTarget.dataset.format;
+    console.log("SET", dropdownSearchQuery);
     fileFormat.set(dropdownSearchQuery);
     dropdownActive = false;
   };
@@ -155,11 +158,16 @@
   </div>
 
   <div class="dropdown-container" class:shakeAnimX={dropdownError}>
-    {#if dropdownError}<span class="error-message">{dropdownError}</span>{/if}
+    <label for="dropdown-search-box" class="dropdown-label">
+      {#if dropdownError}
+        <span class="error-message">{dropdownError}</span>
+      {:else}<span>Search for a format:</span>{/if}
+    </label>
     <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
       <input
+        id="dropdown-search-box"
         type="text"
-        value={format}
+        value={dropdownSearchQuery}
         disabled={isConverting}
         on:input={handleDropdownSearch}
         on:focus={handleDropdownOpen}
@@ -258,12 +266,16 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           cursor: pointer;
+          justify-content: center;
           user-select: none;
           font-size: 28px;
 
           span:not(.file-size-limit) {
+            max-width: 90%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
             margin: 20px 0;
           }
 
@@ -293,12 +305,17 @@
       width: $dropdownWidth;
       position: relative;
 
-      .error-message {
-        color: $errorColor;
-        position: absolute;
-        left: 0;
-        top: -20px;
-        width: 100%;
+      .dropdown-label {
+        span {
+          position: absolute;
+          left: 0;
+          top: -20px;
+          width: 100%;
+        }
+
+        .error-message {
+          color: $errorColor;
+        }
       }
 
       ul {

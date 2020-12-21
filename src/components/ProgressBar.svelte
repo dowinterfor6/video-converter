@@ -10,7 +10,10 @@
     Converting...
   </span>
   <div class="progress-bar-wrapper">
-    <div class="progress-bar" style={`width: ${progress}%`} />
+    <div
+      role="progressbar"
+      class="progress-bar"
+      style={`width: ${progress}%`} />
   </div>
 </div>
 

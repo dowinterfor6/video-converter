@@ -4,7 +4,10 @@
   </div>
   <ul class="right">
     <li>
-      <a href="https://www.buymeacoffee.com/achan" target="_blank">
+      <a
+        href="https://www.buymeacoffee.com/achan"
+        target="_blank"
+        rel="noreferrer">
         Buy me a coffee!
       </a>
     </li>
@@ -15,7 +18,8 @@
           <a
             href="https://www.flaticon.com/authors/monkik"
             title="monkik"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Favicon - monkik
           </a>
         </li>
@@ -23,7 +27,8 @@
           <a
             href="https://www.flaticon.com/authors/pixel-perfect"
             title="Pixel perfect"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Download icon - Pixel perfect
           </a>
         </li>
@@ -31,7 +36,8 @@
           <a
             href="https://www.flaticon.com/authors/becris"
             title="Becris"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Convert icon - Becris
           </a>
         </li>
@@ -39,7 +45,8 @@
           <a
             href="https://www.flaticon.com/authors/smashicons"
             title="Smashicons"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Down arrow icon - Smashicons
           </a>
         </li>
@@ -47,7 +54,8 @@
           <a
             href="https://www.flaticon.com/authors/freepik"
             title="Freepik"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Close icon - Freepik
           </a>
         </li>
@@ -55,7 +63,8 @@
           <a
             href="https://codepen.io/Paolo-Duzioni/pen/ZoRabJ"
             title="Paolo Duzioni"
-            target="_blank">
+            target="_blank"
+            rel="noreferrer">
             Loading spinner - Paolo Duzioni
           </a>
         </li>
@@ -64,14 +73,16 @@
     <li>
       <a
         href="https://github.com/dowinterfor6/video-converter/issues"
-        target="_blank">
+        target="_blank"
+        rel="noreferrer">
         Report a bug
       </a>
     </li>
     <li>
       <a
         href="https://github.com/dowinterfor6/video-converter/"
-        target="_blank">
+        target="_blank"
+        rel="noreferrer">
         Github
       </a>
     </li>
@@ -130,7 +141,7 @@
           transition: all 0.5s;
           color: $dark-blue;
           background: white;
-          transform: translateX($dropdown-element-padding);
+          transform: translateX(-$dropdown-element-padding);
 
           li {
             text-align: left;

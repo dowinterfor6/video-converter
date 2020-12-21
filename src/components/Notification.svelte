@@ -10,7 +10,7 @@
 </script>
 
 {#if message}
-  <div transition:fade={{ duration: 200 }}>
+  <div role="alert" transition:fade={{ duration: 200 }}>
     <p><span on:click={close}>×</span>{message}</p>
   </div>
 {/if}
