@@ -54,7 +54,8 @@
     }
 
     .progress-bar-wrapper {
-      width: $interactables-container-width;
+      width: 100%;
+      max-width: $interactables-container-width;
       border: 2px solid $dark-blue;
       border-radius: 30px;
       height: 20px;

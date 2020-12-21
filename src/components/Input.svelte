@@ -151,7 +151,11 @@
           <span>{videoName}</span>
         {:else if fileError}
           <span class="error-message">{fileError}</span>
-        {:else}<span>Drop your file here or <b>browse</b></span>{/if}
+        {:else}
+          <span class="desktop-input-msg">Drop your file here or
+            <b>browse</b></span>
+          <span class="mobile-input-msg"><b>Browse</b></span>
+        {/if}
         <span class="file-size-limit">File size limit: 2 GB</span>
       </label>
     </div>
@@ -244,6 +248,8 @@
       justify-content: center;
       align-items: center;
       background-color: white;
+      max-width: 500px;
+      width: 90%;
 
       &:hover {
         background-color: $grey;
@@ -252,8 +258,8 @@
 
       .file-upload-wrapper {
         border: 5px dashed $border-grey;
-        height: 250px;
-        width: 500px;
+        width: 100%;
+        height: 150px;
 
         &.highlight {
           background-color: $input-green;
@@ -269,7 +275,7 @@
           cursor: pointer;
           justify-content: center;
           user-select: none;
-          font-size: 28px;
+          font-size: 20px;
 
           span:not(.file-size-limit) {
             max-width: 90%;
@@ -285,6 +291,14 @@
 
           .file-size-limit {
             font-size: 16px;
+          }
+
+          .desktop-input-msg {
+            display: none;
+          }
+
+          .mobile-input-msg {
+            display: block;
           }
         }
 
@@ -302,6 +316,7 @@
     }
 
     .dropdown-container {
+      background-color: white;
       width: $dropdownWidth;
       position: relative;
 
@@ -386,6 +401,52 @@
 
           &:focus {
             outline: none;
+          }
+        }
+      }
+    }
+
+    @media only screen and (min-width: $medium-screen) {
+      .file-upload-container {
+        width: 70%;
+
+        .file-upload-wrapper {
+          width: 100%;
+          height: 250px;
+
+          label {
+            font-size: 24px;
+
+            .desktop-input-msg {
+              display: block;
+            }
+
+            .mobile-input-msg {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    @media only screen and (min-width: $large-screen) {
+      .file-upload-container {
+        width: 100%;
+
+        .file-upload-wrapper {
+          height: 250px;
+          width: 500px;
+
+          label {
+            font-size: 28px;
+
+            .desktop-input-msg {
+              display: block;
+            }
+
+            .mobile-input-msg {
+              display: none;
+            }
           }
         }
       }
