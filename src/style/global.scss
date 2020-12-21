@@ -1,9 +1,31 @@
+// Colors
 $red: #e63946;
+$errorColor: rgb(255, 86, 86);
+
 $white: #f1faee;
+
+$input-green: #dcefdc;
+
 $light-blue: #a8dadc;
 $blue: #457b9d;
 $dark-blue: #1d3557;
+$background-blue: #f3f3ff;
+
 $grey: rgb(240, 240, 240);
 $medium-grey: #bdbdbd;
 $dark-grey: rgb(73, 73, 73);
-$interactablesContainerWidth: 600px;
+$border-grey: #ccc;
+
+// Animation Duration
+$short-anim-duration: 0.3s;
+$long-anim-duration: 0.5s;
+
+// Widths
+$interactables-container-width: 600px;
+$main-width: 80%;
+
+// Screen size breakpoints
+$extra-large-screen: 1200px;
+$large-screen: 992px;
+$medium-screen: 768px;
+$small-screen: 600px;

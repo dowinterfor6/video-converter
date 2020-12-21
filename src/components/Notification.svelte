@@ -11,7 +11,7 @@
 
 {#if message}
   <div transition:fade={{ duration: 200 }}>
-    <p><span on:click={close}>×</span> {message}</p>
+    <p><span on:click={close}>×</span>{message}</p>
   </div>
 {/if}
 
@@ -31,7 +31,7 @@
     p {
       position: relative;
       margin: 12px;
-      font-size: 11px;
+      font-size: 14px;
       color: $red;
 
       span {

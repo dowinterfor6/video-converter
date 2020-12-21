@@ -1,12 +1,13 @@
-<script>
-</script>
-
 <nav>
   <div class="left">
     <!-- <h1>App Name + logo</h1> -->
   </div>
   <ul class="right">
-    <li><a href="https://www.buymeacoffee.com/achan"> Buy me a coffee! </a></li>
+    <li>
+      <a href="https://www.buymeacoffee.com/achan" target="_blank">
+        Buy me a coffee!
+      </a>
+    </li>
     <li class="dropdown">
       Credits
       <ul>
@@ -61,8 +62,17 @@
       </ul>
     </li>
     <li>
-      <a href="https://github.com/dowinterfor6/video-converter/issues">
+      <a
+        href="https://github.com/dowinterfor6/video-converter/issues"
+        target="_blank">
         Report a bug
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/dowinterfor6/video-converter/"
+        target="_blank">
+        Github
       </a>
     </li>
   </ul>
@@ -71,31 +81,20 @@
 <style lang="scss">
   @import "../style/global.scss";
 
+  $dropdown-element-padding: 10px;
+
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: absolute;
     width: 80%;
-    // Extra large breakpoint
-    max-width: 1200px;
+    max-width: $extra-large-screen;
     padding: 5px 30px 0 30px;
     top: 0;
 
-    // .left {
-    //   h1 {
-    //     font-family: "Montserrat", sans-serif;
-    //     color: $red;
-    //     font-size: 36px;
-    //     font-weight: 100;
-    //     margin: 0;
-    //   }
-    // }
-
     .right {
-      list-style: none;
-      padding: 0;
-      width: 40%;
+      width: 50%;
       display: flex;
       justify-content: space-evenly;
       color: $dark-blue;
@@ -120,23 +119,22 @@
         ul {
           width: 250px;
           top: 25px;
-          list-style: none;
           padding: 0;
-          // display: none;
           visibility: hidden;
-          border: 1px solid $medium-grey;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.3);
           position: absolute;
           overflow: hidden;
           opacity: 0;
+          z-index: 5;
           max-height: 0;
           transition: all 0.5s;
-          z-index: 5;
           color: $dark-blue;
           background: white;
+          transform: translateX($dropdown-element-padding);
 
           li {
             text-align: left;
-            padding: 10px;
+            padding: $dropdown-element-padding;
 
             &:hover {
               background-color: $grey;
@@ -146,7 +144,6 @@
         }
 
         &:hover ul {
-          // display: block;
           visibility: visible;
           opacity: 1;
           max-height: 500px;

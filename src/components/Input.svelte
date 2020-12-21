@@ -8,9 +8,15 @@
     isFileConverting
   } from "../store/store";
 
-  let videoName, fileError, dropdownError, format, isConverting;
+  let videoName,
+    fileError,
+    dropdownError,
+    format,
+    isConverting,
+    fileInputHover = false,
+    dropdownActive,
+    dropdownSearchQuery = format;
 
-  // fileFormat.subscribe((value) => (format = value));
   fileFormat.subscribe((value) => (format = value));
 
   fileInputError.subscribe((err) => (fileError = err));
@@ -20,10 +26,6 @@
   video.subscribe((video) => (videoName = video.name));
 
   isFileConverting.subscribe((val) => (isConverting = val));
-
-  let fileInputHover = false;
-  let dropdownActive;
-  let dropdownSearchQuery = format;
 
   const commonFileFormats = [
     ".mp4",
@@ -41,40 +43,29 @@
   );
 
   $: filteredFileFormats = [
+    "Common",
     ...commonFileFormats,
+    "Other",
     ...muxFormats
   ].filter((format) => format.includes(dropdownSearchQuery));
 
-  const highlight = (e) => {
+  const handleDragIn = (e) => {
+    e.preventDefault();
+    if (isConverting) return;
     fileInputHover = true;
-    e.preventDefault();
-    e.stopPropagation();
   };
 
-  const unhighlight = (e) => {
+  const handleDragOut = (e) => {
+    e.preventDefault();
+    if (isConverting) return;
     fileInputHover = false;
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDragEnter = (e) => {
-    if (isConverting) return;
-    highlight(e);
-  };
-
-  const handleDragOver = (e) => {
-    if (isConverting) return;
-    highlight(e);
-  };
-
-  const handleDragLeave = (e) => {
-    if (isConverting) return;
-    unhighlight(e);
   };
 
   const handleDragDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isConverting) return;
-    unhighlight(e);
+    fileInputHover = false;
     const data = e.dataTransfer;
     const file = data.files?.item(0);
     validateFile(file);
@@ -139,12 +130,12 @@
   <div class="file-upload-container">
     <div
       class="file-upload-wrapper"
-      class:animate__shakeX={fileError}
+      class:shakeAnimX={fileError}
       class:highlight={fileInputHover}
-      onanimationend={(e) => e.currentTarget.classList.remove('animate__shakeX')}
-      on:dragenter={handleDragEnter}
-      on:dragleave={handleDragLeave}
-      on:dragover={handleDragOver}
+      onanimationend={(e) => e.currentTarget.classList.remove('shakeAnimX')}
+      on:dragenter={handleDragIn}
+      on:dragleave={handleDragOut}
+      on:dragover={handleDragIn}
       on:drop={handleDragDrop}>
       <input
         id="file-input"
@@ -163,7 +154,7 @@
     </div>
   </div>
 
-  <div class="dropdown-container" class:animate__shakeX={dropdownError}>
+  <div class="dropdown-container" class:shakeAnimX={dropdownError}>
     {#if dropdownError}<span class="error-message">{dropdownError}</span>{/if}
     <form class="searchable-dropdown" on:submit={handleDropdownBlur}>
       <input
@@ -219,12 +210,11 @@
 
   $dropdownWidth: 200px;
   $dropdownHeight: 50px;
-  $errorColor: rgb(255, 86, 86);
 
-  .animate__shakeX {
+  .shakeAnimX {
     -webkit-animation-name: shakeX;
     animation-name: shakeX;
-    animation-duration: 0.3s;
+    animation-duration: $short-anim-duration;
   }
 
   .input-container {
@@ -241,7 +231,7 @@
 
     .file-upload-container {
       margin-bottom: 30px;
-      transition: all 0.3s;
+      transition: all $short-anim-duration;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -253,13 +243,12 @@
       }
 
       .file-upload-wrapper {
-        border: 5px dashed #ccc;
+        border: 5px dashed $border-grey;
         height: 250px;
         width: 500px;
 
         &.highlight {
-          // Same as above container
-          background-color: $grey;
+          background-color: $input-green;
           color: $blue;
         }
 
@@ -295,14 +284,13 @@
           opacity: 0;
           overflow: hidden;
           position: absolute;
-          z-index: -1;
+          z-index: -5;
         }
       }
     }
 
     .dropdown-container {
       width: $dropdownWidth;
-      // height: $dropdownHeight;
       position: relative;
 
       .error-message {
@@ -314,12 +302,12 @@
       }
 
       ul {
-        z-index: 20;
+        z-index: 5;
         max-height: 100px;
         width: $dropdownWidth;
         overflow-y: auto;
         overflow-x: hidden;
-        border: 1px solid #ccc;
+        border: 1px solid $border-grey;
         border-radius: 2px;
         cursor: pointer;
         padding: 0;
@@ -336,7 +324,6 @@
         }
 
         li {
-          list-style: none;
           padding: 5px 0;
 
           &.disabled {
@@ -354,7 +341,7 @@
       }
 
       .searchable-dropdown {
-        border: 1px solid #ccc;
+        border: 1px solid $border-grey;
         border-radius: 2px;
         display: flex;
         justify-content: space-between;
@@ -367,7 +354,7 @@
           justify-content: center;
           cursor: pointer;
           padding: 0 5px;
-          transition: all 0.2s;
+          transition: all $short-anim-duration;
           margin: 0 5px;
 
           &.flipped {

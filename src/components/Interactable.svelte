@@ -12,8 +12,15 @@
     notificationMessage
   } from "../store/store";
 
-  let videoFile, fileError, dropdownError, format, isConverting;
-  let prevVideoFile, prevFormat;
+  let videoFile,
+    fileError,
+    dropdownError,
+    format,
+    isConverting,
+    prevVideoFile,
+    prevFormat,
+    output,
+    progress = 0;
 
   fileFormat.subscribe((value) => (format = value));
 
@@ -25,9 +32,6 @@
 
   isFileConverting.subscribe((value) => (isConverting = value));
 
-  let progress = 0;
-  let output;
-
   $: errors = fileError || dropdownError;
   $: inputOrFormatChanged =
     prevVideoFile !== videoFile || prevFormat !== format;
@@ -36,7 +40,6 @@
   $: showDownloadButton = output && !inputOrFormatChanged;
 
   const ffmpeg = createFFmpeg({
-    log: true,
     progress: ({ ratio }) => {
       if (ratio >= 0) {
         progress = (ratio * 100.0).toFixed(2);
@@ -77,9 +80,8 @@
       prevVideoFile = videoFile;
       prevFormat = format;
     } catch (error) {
-      // Pop up for reporting error/refresh page
       notificationMessage.set(
-        "An error has occured! Please refresh the page. If you experience the same error again, please 'Report a bug'."
+        "An error has occured! Please refresh the page. If you experience the same error again, please let me know via 'Report a bug'."
       );
       isFileConverting.set(false);
     }
@@ -198,7 +200,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all $short-anim-duration;
     text-decoration: none;
     color: black;
     margin: auto;
@@ -227,7 +229,7 @@
         overflow: initial;
 
         path {
-          transition: all 0.3s;
+          transition: all $short-anim-duration;
           stroke: black;
           stroke-width: $strokeWidth;
           fill: transparent;
@@ -248,9 +250,7 @@
     position: relative;
     margin-top: 20px;
     width: 100%;
-    // width: $interactablesContainerWidth; // Same as input?
-    // height: inherit; // Temp solution
-    height: 55px; // Actual temp solution hardcoded
+    height: 55px;
 
     .convert-container {
       @include button(10px);

@@ -4,9 +4,7 @@
   import { fade } from "svelte/transition";
 </script>
 
-<div
-  class="progress-bar-container"
-  transition:fade={{ duration: 200, delay: 500 }}>
+<div class="progress-bar-container" in:fade={{ duration: 200, delay: 200 }}>
   <span>
     <div class="spinner" />
     Converting...
@@ -53,7 +51,7 @@
     }
 
     .progress-bar-wrapper {
-      width: $interactablesContainerWidth;
+      width: $interactables-container-width;
       border: 2px solid $dark-blue;
       border-radius: 30px;
       height: 20px;
@@ -63,7 +61,7 @@
         background: $light-blue;
         width: 0;
         height: 30px;
-        transition: width 0.3s;
+        transition: width $short-anim-duration;
       }
     }
   }

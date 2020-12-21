@@ -41,6 +41,11 @@
     font-family: Roboto, sans-serif;
   }
 
+  :global(ul) {
+    list-style: none;
+    padding: 0;
+  }
+
   main {
     display: flex;
     flex-direction: column;
@@ -48,23 +53,21 @@
     align-items: center;
     height: 100%;
     text-align: center;
-    padding: 1em;
+    padding: 16px;
     margin: 0 auto;
 
     .content-wrapper {
       position: relative;
-      // Same as nav
-      width: 80%;
-      // Extra large breakpoint
-      max-width: 1200px;
+      width: $main-width;
+      max-width: $extra-large-screen;
 
       .background {
         z-index: -5;
         position: absolute;
         width: 100%;
-        background: #f3f3ff;
+        background: $background-blue;
         border-radius: 50px;
-        height: 375px;
+        height: 400px;
       }
 
       .content {
@@ -86,8 +89,7 @@
           &.disclaimer {
             color: $dark-grey;
             font-size: 12px;
-            // 2x content padding
-            margin-bottom: 50px;
+            margin-bottom: 25px;
           }
         }
       }
