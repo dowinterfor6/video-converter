@@ -29,8 +29,6 @@
 
   :global(body) {
     height: 100vh;
-    // TODO: TEMP
-    overflow: hidden;
     padding: 0;
     margin: 0;
   }

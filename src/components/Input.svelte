@@ -107,7 +107,6 @@
   };
 
   const handleDropdownBlur = (e) => {
-    console.log("BLUR: ", dropdownSearchQuery);
     e.preventDefault();
 
     fileFormat.set(dropdownSearchQuery);
@@ -123,7 +122,6 @@
   const setDropdownValue = (e) => {
     dropdownInputError.set("");
     dropdownSearchQuery = e.currentTarget.dataset.format;
-    console.log("SET", dropdownSearchQuery);
     fileFormat.set(dropdownSearchQuery);
     dropdownActive = false;
   };

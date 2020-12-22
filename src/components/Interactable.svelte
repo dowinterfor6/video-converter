@@ -9,7 +9,7 @@
     fileInputError,
     dropdownInputError,
     isFileConverting,
-    notificationMessage
+    notificationMessage,
   } from "../store/store";
 
   let videoFile,
@@ -44,7 +44,7 @@
       if (ratio >= 0) {
         progress = (ratio * 100.0).toFixed(2);
       }
-    }
+    },
   });
 
   const convert = async () => {
@@ -72,7 +72,7 @@
 
       const data = ffmpeg.FS("readFile", `out.${fileFormatWithoutDot}`);
       const url = URL.createObjectURL(new Blob([data.buffer]), {
-        type: `video/${fileFormatWithoutDot}`
+        type: `video/${fileFormatWithoutDot}`,
       });
 
       output = url;
@@ -80,6 +80,7 @@
       prevVideoFile = videoFile;
       prevFormat = format;
     } catch (error) {
+      console.log("Error: ", error);
       notificationMessage.set(
         "An error has occured! Please refresh the page. If you experience the same error again, please let me know via 'Report a bug'."
       );
