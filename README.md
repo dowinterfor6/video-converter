@@ -1,9 +1,5 @@
 # Video Converter
 
-## Todos
-
-PWA
-
 ## Known issues:
 
 Input background flashes sometimes when dragging over
