@@ -1,0 +1,15 @@
+{
+  "short_name": "Video Converter",
+  "name": "Video Converter PWA",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/ico",
+      "sizes": "48x48"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1d3557",
+  "background_color": "#FFFFFF"
+}
