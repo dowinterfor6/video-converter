@@ -41,7 +41,6 @@ self.addEventListener("activate", (e) => {
         cacheNames.map((cacheName) => {
           console.log("cache name: ", cacheName);
           if (!cacheWhitelist.includes(cacheName)) {
-            console.log("HUH");
             return caches.delete(cacheName);
           }
         })
