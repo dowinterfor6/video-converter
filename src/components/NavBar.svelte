@@ -6,55 +6,83 @@
   const navLinks = [
     {
       text: "Buy me a coffee!",
+      icon: "images/coffee-cup.png",
+      alt: "Coffee Icon",
       href: "https://www.buymeacoffee.com/achan",
-      type: "link"
+      type: "link",
     },
     {
       text: "Credits",
+      icon: "images/information.png",
+      alt: "Information Icon",
       items: [
         {
           href: "https://www.flaticon.com/authors/monkik",
           title: "monkik",
-          text: "Favicon - monkik"
+          text: "Favicon - monkik",
         },
         {
           href: "https://www.flaticon.com/authors/pixel-perfect",
           title: "Pixel perfect",
-          text: "Download icon - Pixel perfect"
+          text: "Download icon - Pixel perfect",
         },
         {
           href: "https://www.flaticon.com/authors/becris",
           title: "Becris",
-          text: "Convert icon - Becris"
+          text: "Convert icon - Becris",
         },
         {
           href: "https://www.flaticon.com/authors/smashicons",
           title: "Smashicons",
-          text: "Down arrow icon - Smashicons"
+          text: "Down arrow icon - Smashicons",
         },
         {
           href: "https://www.flaticon.com/authors/freepik",
           title: "Freepik",
-          text: "Close icon - Freepik"
+          text: "Close icon - Freepik",
         },
         {
           href: "https://codepen.io/Paolo-Duzioni/pen/ZoRabJ",
           title: "Paolo Duzioni",
-          text: "Loading spinner - Paolo Duzioni"
-        }
+          text: "Loading spinner - Paolo Duzioni",
+        },
+        {
+          href: "https://www.flaticon.com/authors/pixel-perfect",
+          title: "Pixel Perfect",
+          text: "Coffee cup icon - Pixel Perfect",
+        },
+        {
+          href: "https://www.flaticon.com/authors/freepik",
+          title: "Freepik",
+          text: "Quill icon - Freepik",
+        },
+        {
+          href: "https://www.flaticon.com/authors/freepik",
+          title: "Freepik",
+          text: "Information icon - Freepik",
+        },
+        {
+          href: "https://codepen.io/Paolo-Duzioni/pen/ZoRabJ",
+          title: "Pixel Perfect",
+          text: "Github - Pixel Perfect",
+        },
       ],
-      type: "dropdown"
+      type: "dropdown",
     },
     {
       text: "Report a bug",
+      icon: "images/quill-drawing-a-line.png",
+      alt: "Bug Icon",
       href: "https://github.com/dowinterfor6/video-converter/issues",
-      type: "link"
+      type: "link",
     },
     {
       text: "Github",
+      icon: "images/github.png",
+      alt: "Github Icon",
       href: "https://github.com/dowinterfor6/video-converter/",
-      type: "link"
-    }
+      type: "link",
+    },
   ];
 
   const toggleSandwichOpen = () => {
@@ -82,7 +110,7 @@
           {#each navLinks as link}
             {#if link.type === 'dropdown'}
               <li class="dropdown">
-                {link.text}
+                <div><img src={link.icon} alt={link.alt} /> {link.text}</div>
                 <ul>
                   {#each link.items as dropdownItems}
                     <li>
@@ -100,6 +128,7 @@
             {:else}
               <li>
                 <a href={link.href} target="_blank" rel="noreferrer">
+                  <img src={link.icon} alt={link.alt} />
                   {link.text}
                 </a>
               </li>
@@ -183,6 +212,7 @@
         }
 
         .sandwich-contents {
+          overflow: auto;
           margin: 0;
           padding: 50px 0 0 0;
           width: 270px;
@@ -193,24 +223,28 @@
           background: white;
 
           li {
-            // &:first-of-type {
-            //   border-top: 1px solid $medium-grey;
-            // }
-
-            // border-bottom: 1px solid $medium-grey;
             cursor: pointer;
             display: flex;
-            justify-content: center;
-            padding: 10px 0;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 0 10px 10px;
 
             &:hover {
               background: $grey;
               color: $blue;
             }
 
+            img {
+              margin-right: 10px;
+              height: 40px;
+              width: 40px;
+            }
+
             a {
               width: 100%;
               height: 100%;
+              display: flex;
+              align-items: center;
               color: $dark-blue;
               text-decoration: none;
 
@@ -223,12 +257,21 @@
               display: flex;
               flex-direction: column;
 
+              div {
+                width: 100%;
+                display: flex;
+                align-items: center;
+              }
+
               ul {
+                width: 100%;
                 max-height: 0;
                 overflow: hidden;
                 transition: all $short-anim-duration;
 
                 li {
+                  padding-left: 0;
+
                   &:first-of-type {
                     border-top: none;
                   }
