@@ -14,7 +14,7 @@
       <p>Upload your file and select a format to convert to!</p>
       <p class="disclaimer">
         Disclaimer: File information is not stored anywhere, and files are not
-        used for any purpose other than conversion
+        used for any purpose other than conversion. Doesn't work on mobile.
       </p>
     </div>
     <Input />

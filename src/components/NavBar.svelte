@@ -96,7 +96,7 @@
 
 <nav>
   <div class="sandwich" role="button">
-    <span on:click={toggleSandwichOpen}>☰</span>
+    {#if !sandwichOpen}<span on:click={toggleSandwichOpen}>☰</span>{/if}
     {#if sandwichOpen}
       <div
         class="sandwich-wrapper"
